@@ -1,5 +1,5 @@
-// SQLite for local dev. Keep the schema DB-agnostic so it can move to Postgres later
-// (no SQLite-only types; amenities is a JSON string for that reason).
+// Postgres (Neon) for local dev and production. The schema stays DB-agnostic
+// (no provider-specific types; amenities is a JSON string for that reason).
 
 generator client {
   provider = "prisma-client"
@@ -7,7 +7,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 enum Role {

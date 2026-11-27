@@ -11,12 +11,12 @@ export const metadata: Metadata = { title: "Rooms" };
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-neutral-900">Building Z</h1>
-        <p className="text-sm text-neutral-500">
-          Live room status. Rooms marked <span className="font-medium text-fuchsia-700">Ghost</span> are booked but
-          empty — you can grab them right now.
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-1.5">
+        <h1 className="text-2xl font-semibold tracking-[-0.02em] text-(--text-primary)">Building Z</h1>
+        <p className="text-[13px] leading-5 text-(--text-secondary)">
+          Live room status. <span className="font-medium text-(--accent)">Ghost</span> rooms are booked but empty —
+          you can grab them right now.
         </p>
       </div>
       <Suspense fallback={<FloorSkeleton />}>
@@ -40,9 +40,9 @@ async function LiveFloor() {
 
 function FloorSkeleton() {
   return (
-    <div className="grid animate-pulse grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+    <div className="grid animate-pulse grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
       {Array.from({ length: 12 }, (_, i) => (
-        <div key={i} className="h-28 rounded-xl bg-neutral-100" />
+        <div key={i} className="h-40 rounded-(--radius) border border-(--border) bg-(--surface)" />
       ))}
     </div>
   );

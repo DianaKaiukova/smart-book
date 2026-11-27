@@ -7,8 +7,104 @@
 
 :root {
   color-scheme: light;
+
+  --accent: #7c3aed; /* purple — CTAs and Ghost only */
+  --accent-hover: #6d28d9;
+  --surface: #ffffff;
+  --surface-alt: #f9fafb;
+  --segment-bg: #f3f4f6;
+  --border: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --status-free: #10b981;
+  --status-ghost: #7c3aed;
+  --status-busy: #9ca3af;
+  --status-occ: #f59e0b;
+  --radius: 10px;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 body {
-  @apply bg-neutral-50 font-sans text-neutral-900;
+  @apply font-sans;
+  background: var(--surface-alt);
+  color: var(--text-primary);
+}
+
+@layer components {
+  .room-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition:
+      box-shadow 0.2s ease-out,
+      transform 0.2s ease-out;
+    /* backwards (not both) so the finished animation doesn't override the hover transform */
+    animation: card-enter 0.3s ease-out backwards;
+  }
+
+  .room-card:hover,
+  .room-card:focus-within {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .live-dot {
+    position: relative;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: var(--status-free);
+  }
+
+  .live-dot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    animation: live-pulse 2s ease-out infinite;
+  }
+}
+
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes live-pulse {
+  from {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .room-card,
+  .live-dot::after {
+    animation: none;
+  }
+
+  .room-card:hover,
+  .room-card:focus-within {
+    transform: none;
+  }
 }

@@ -22,7 +22,7 @@ export function AssistantDock() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="fixed right-4 bottom-4 z-40 flex items-center gap-2 rounded-full bg-indigo-600 px-4 py-3 text-sm font-medium text-white shadow-lg shadow-indigo-300 hover:bg-indigo-700"
+          className="fixed right-4 bottom-4 z-40 flex items-center gap-2 rounded-full bg-(--accent) px-4 py-3 text-sm font-medium text-white shadow-(--shadow-md) hover:bg-(--accent-hover)"
         >
           <Bot className="size-5" aria-hidden />
           <span className="hidden sm:inline">Ask SmartBook</span>

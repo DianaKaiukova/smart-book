@@ -24,8 +24,10 @@ export function NavLinks({ isAdmin }: { isAdmin: boolean }) {
             key={link.href}
             href={link.href}
             className={cn(
-              "shrink-0 rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors",
-              active ? "bg-indigo-50 text-indigo-700" : "text-neutral-600 hover:bg-neutral-100 hover:text-neutral-900",
+              "shrink-0 rounded-lg px-3 py-1.5 text-[13px] font-medium transition-colors",
+              active
+                ? "bg-(--segment-bg) text-(--text-primary)"
+                : "text-(--text-secondary) hover:bg-(--surface-alt) hover:text-(--text-primary)",
             )}
           >
             {link.label}

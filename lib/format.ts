@@ -1,7 +1,10 @@
 // Client-safe date helpers. Dates travel as ISO strings and render in the browser's timezone.
 
-const timeFmt = new Intl.DateTimeFormat(undefined, { hour: "2-digit", minute: "2-digit" });
-const dayFmt = new Intl.DateTimeFormat(undefined, { weekday: "short", day: "numeric", month: "short" });
+// Pin the locale so the server (Node) and the browser format identically —
+// `undefined` resolves to 24h on the server but 12h (AM/PM) in the browser,
+// which causes a hydration mismatch. "en-GB" (24h) matches the rest of the app.
+const timeFmt = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", hour12: false });
+const dayFmt = new Intl.DateTimeFormat("en-GB", { weekday: "short", day: "numeric", month: "short" });
 
 export function formatTime(iso: string | Date): string {
   return timeFmt.format(new Date(iso));

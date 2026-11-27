@@ -51,10 +51,14 @@ const ROOMS = [
   { id: "N.2.57a", name: "Meeting Room", floor: "Level 2", capacity: 8, amenities: MEETING },
 ];
 
+// Seed passwords come from the environment so they are not committed in plain
+// text. Set SEED_*_PASSWORD in your local .env (see .env.example); the fallback
+// is a non-secret placeholder, not a real default to rely on.
+const SEED_FALLBACK_PASSWORD = "changeme";
 const USERS = [
-  { email: "admin@smartbook.dev", name: "Fiona Facilities", role: "ADMIN" as const, password: "admin1234" },
-  { email: "member@smartbook.dev", name: "Mia Member", role: "MEMBER" as const, password: "member1234" },
-  { email: "holder@smartbook.dev", name: "Harry Holder", role: "MEMBER" as const, password: "holder1234" },
+  { email: "admin@smartbook.dev", name: "Fiona Facilities", role: "ADMIN" as const, password: process.env.SEED_ADMIN_PASSWORD || SEED_FALLBACK_PASSWORD },
+  { email: "member@smartbook.dev", name: "Mia Member", role: "MEMBER" as const, password: process.env.SEED_MEMBER_PASSWORD || SEED_FALLBACK_PASSWORD },
+  { email: "holder@smartbook.dev", name: "Harry Holder", role: "MEMBER" as const, password: process.env.SEED_HOLDER_PASSWORD || SEED_FALLBACK_PASSWORD },
 ];
 
 function at(dayOffset: number, hour: number, minute = 0): Date {

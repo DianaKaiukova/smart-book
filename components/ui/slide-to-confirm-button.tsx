@@ -97,8 +97,8 @@ export const SlideToConfirmButton = forwardRef<
             "relative isolate h-14 w-72 transform-gpu overflow-hidden rounded-full p-1 transition-[background-color,box-shadow] duration-300",
             "shadow-[inset_0_1px_2px_rgba(0,0,0,0.08),inset_0_2px_4px_rgba(0,0,0,0.05),inset_0_-2px_3px_rgba(0,0,0,0.06),0_1px_0_rgba(255,255,255,0.9)]",
             confirmed
-              ? "bg-emerald-600 shadow-[inset_0_1px_3px_rgba(0,0,0,0.2),inset_0_-2px_3px_rgba(0,0,0,0.12),0_1px_0_rgba(255,255,255,0.9)]"
-              : "bg-neutral-100",
+              ? "bg-success shadow-[inset_0_1px_3px_rgba(0,0,0,0.2),inset_0_-2px_3px_rgba(0,0,0,0.12),0_1px_0_rgba(255,255,255,0.9)]"
+              : "bg-subtle",
             className,
           )}
         >
@@ -108,7 +108,7 @@ export const SlideToConfirmButton = forwardRef<
               "absolute inset-0 flex items-center justify-center text-sm font-medium transition-colors duration-200",
               confirmed
                 ? "text-white [text-shadow:0_1px_1px_rgba(0,0,0,0.25)]"
-                : "text-neutral-500 [text-shadow:0_1px_0_rgba(255,255,255,0.8)]",
+                : "text-ink-muted [text-shadow:0_1px_0_rgba(255,255,255,0.8)]",
             )}
             style={{ opacity: confirmed ? 1 : 1 - progress * 1.4 }}
           >
@@ -126,14 +126,14 @@ export const SlideToConfirmButton = forwardRef<
             className={cn(
               // will-change keeps the knob on its own compositor layer so the
               // moving box-shadow doesn't leave stale ghost pixels on the track.
-              "absolute top-1 left-1 flex size-12 touch-none items-center justify-center rounded-full bg-neutral-50 text-neutral-700 will-change-transform",
+              "absolute top-1 left-1 flex size-12 touch-none items-center justify-center rounded-full bg-canvas text-ink-secondary will-change-transform",
               // Keycap material like the quantity stepper, but with a tight,
               // downward-only shadow so the knob sits in the groove instead of
               // floating in a soft halo.
               "shadow-[0_1px_1px_rgba(0,0,0,0.12),0_2px_3px_rgba(0,0,0,0.12),inset_0_1.5px_0_rgba(255,255,255,1),inset_0_-2px_3px_rgba(0,0,0,0.1)]",
               confirmed
                 ? "cursor-default"
-                : "cursor-grab active:cursor-grabbing active:bg-neutral-100 active:shadow-[0_1px_1px_rgba(0,0,0,0.06),inset_0_1px_1px_rgba(0,0,0,0.06),inset_0_2px_3px_rgba(0,0,0,0.03),inset_0_-2px_3px_rgba(0,0,0,0.05)]",
+                : "cursor-grab active:cursor-grabbing active:bg-subtle active:shadow-[0_1px_1px_rgba(0,0,0,0.06),inset_0_1px_1px_rgba(0,0,0,0.06),inset_0_2px_3px_rgba(0,0,0,0.03),inset_0_-2px_3px_rgba(0,0,0,0.05)]",
               draggingRef.current
                 ? "transition-[box-shadow,background-color] duration-200 ease-out"
                 : "transition-[transform,box-shadow,background-color] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
@@ -145,7 +145,7 @@ export const SlideToConfirmButton = forwardRef<
                 size={18}
                 strokeWidth={2.5}
                 aria-hidden
-                className="text-emerald-600 filter-[drop-shadow(0_1px_0_rgba(255,255,255,0.9))_drop-shadow(0_-1px_0.5px_rgba(0,0,0,0.12))]"
+                className="text-success filter-[drop-shadow(0_1px_0_rgba(255,255,255,0.9))_drop-shadow(0_-1px_0.5px_rgba(0,0,0,0.12))]"
               />
             ) : (
               <ArrowRight

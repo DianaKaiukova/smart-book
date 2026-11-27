@@ -60,10 +60,10 @@ export async function POST(request: Request) {
             ? "The configured OpenAI model is not available. Set OPENAI_MODEL in .env (e.g. gpt-4o-mini)."
             : error.status === 429
               ? "OpenAI rate limit or quota reached. Try again shortly."
-              : "The assistant had a problem talking to OpenAI.";
+              : "SmartBookBot had a problem talking to OpenAI.";
       return json({ ok: false, error: hint }, 502);
     }
     console.error("[assistant] failed", error);
-    return json({ ok: false, error: "The assistant hit an unexpected error." }, 500);
+    return json({ ok: false, error: "SmartBookBot hit an unexpected error." }, 500);
   }
 }

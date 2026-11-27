@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 const LINKS = [
   { href: "/", label: "Rooms" },
   { href: "/bookings", label: "My bookings" },
-  { href: "/assistant", label: "Assistant" },
+  { href: "/assistant", label: "SmartBookBot" },
 ];
 
 export function NavLinks({ isAdmin }: { isAdmin: boolean }) {
@@ -26,8 +26,8 @@ export function NavLinks({ isAdmin }: { isAdmin: boolean }) {
             className={cn(
               "shrink-0 rounded-lg px-3 py-1.5 text-[13px] font-medium transition-colors",
               active
-                ? "bg-(--segment-bg) text-(--text-primary)"
-                : "text-(--text-secondary) hover:bg-(--surface-alt) hover:text-(--text-primary)",
+                ? "bg-subtle text-ink"
+                : "text-ink-secondary hover:bg-canvas hover:text-ink",
             )}
           >
             {link.label}

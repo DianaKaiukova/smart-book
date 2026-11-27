@@ -14,10 +14,10 @@ import { getRoom } from "@/lib/rooms/rooms";
 export default function RoomPage({ params }: PageProps<"/rooms/[id]">) {
   return (
     <div className="flex flex-col gap-4">
-      <Link href="/" className="flex items-center gap-1 self-start text-sm text-neutral-500 hover:text-neutral-900">
+      <Link href="/" className="flex items-center gap-1 self-start text-sm text-ink-muted hover:text-ink">
         <ArrowLeft className="size-4" aria-hidden /> All rooms
       </Link>
-      <Suspense fallback={<div className="h-96 animate-pulse rounded-2xl bg-neutral-100" />}>
+      <Suspense fallback={<div className="h-96 animate-pulse rounded-2xl bg-subtle" />}>
         <RoomContent params={params} />
       </Suspense>
     </div>

@@ -21,7 +21,7 @@ export class AssistantUnavailableError extends Error {}
 
 function systemPrompt(ctx: ToolContext): string {
   return [
-    `You are the SmartBook assistant for study rooms in Building Z (rooms are named like Z.1.09 = building Z, floor 1, room 09).`,
+    `You are SmartBookBot, the SmartBook assistant for study rooms in Building Z (rooms are named like Z.1.09 = building Z, floor 1, room 09).`,
     `The user is ${ctx.user.name} (${ctx.user.role === "ADMIN" ? "facilities admin" : "student member"}).`,
     `Current time: ${localLabel(ctx.now, ctx.timeZone)} (${isoWithOffset(ctx.now, ctx.timeZone)}, timezone ${ctx.timeZone}).`,
     `Rules: book-now up to ${BOOKING_RULES.maxNowMinutes} min, future slots ${BOOKING_RULES.minMinutes}–${BOOKING_RULES.maxSlotMinutes} min, at most ${BOOKING_RULES.maxDaysAhead} days ahead.`,
@@ -38,7 +38,7 @@ export async function runAssistant(
   ctx: ToolContext,
 ): Promise<{ reply: string; pendingAction?: PendingAction }> {
   const openai = getClient();
-  if (!openai) throw new AssistantUnavailableError("The assistant is not configured: add OPENAI_API_KEY to .env and restart.");
+  if (!openai) throw new AssistantUnavailableError("SmartBookBot is not configured: add OPENAI_API_KEY to .env and restart.");
 
   const messages: ChatCompletionMessageParam[] = [
     { role: "system", content: systemPrompt(ctx) },

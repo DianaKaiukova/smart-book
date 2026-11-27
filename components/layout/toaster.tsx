@@ -51,7 +51,7 @@ function ToastItem({ toast, onDone }: { toast: Toast; onDone: (id: number) => vo
     return (
       <div
         role="alert"
-        className="pointer-events-auto max-w-80 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2.5 text-[13px] text-rose-900 shadow-lg"
+        className="pointer-events-auto max-w-80 rounded-xl border border-danger-soft bg-danger-soft px-3 py-2.5 text-[13px] text-danger shadow-lg"
       >
         {toast.message}
       </div>

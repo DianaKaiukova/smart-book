@@ -47,11 +47,11 @@ export function DayTimeline({
             title={cell.hit ? `${formatTime(cell.hit.start)}–${formatTime(cell.hit.end)}${cell.hit.isMine ? " (you)" : ""}` : undefined}
             className={cn(
               "rounded-md border px-1 py-1.5 text-center text-[11px] tabular-nums transition-colors",
-              cell.isSelected && "border-indigo-600 bg-indigo-600 text-white",
-              !cell.isSelected && cell.hit?.isMine && "border-indigo-200 bg-indigo-100 text-indigo-800",
-              !cell.isSelected && cell.hit && !cell.hit.isMine && "border-neutral-200 bg-neutral-200 text-neutral-500 line-through",
-              !cell.isSelected && !cell.hit && cell.past && "border-transparent bg-neutral-50 text-neutral-300",
-              !cell.isSelected && !cell.hit && !cell.past && "border-emerald-200 bg-emerald-50 text-emerald-800 hover:bg-emerald-100",
+              cell.isSelected && "border-accent bg-accent text-white",
+              !cell.isSelected && cell.hit?.isMine && "border-accent-soft bg-accent-soft text-accent-hover",
+              !cell.isSelected && cell.hit && !cell.hit.isMine && "border-line bg-line text-ink-muted line-through",
+              !cell.isSelected && !cell.hit && cell.past && "border-transparent bg-canvas text-ink-muted",
+              !cell.isSelected && !cell.hit && !cell.past && "border-success-soft bg-success-soft text-success hover:border-success",
             )}
           >
             {cell.time}

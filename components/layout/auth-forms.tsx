@@ -34,16 +34,16 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
         required
         containerClassName="max-w-none"
       />
-      {state?.error ? <p role="alert" className="text-sm text-rose-600">{state.error}</p> : null}
+      {state?.error ? <p role="alert" className="text-sm text-danger">{state.error}</p> : null}
       <SubmitButton pending={pending} label="Sign in" />
-      <p className="text-center text-sm text-neutral-500">
+      <p className="text-center text-sm text-ink-muted">
         New here?{" "}
-        <Link href="/signup" className="font-medium text-indigo-600 hover:underline">
+        <Link href="/signup" className="font-medium text-accent hover:underline">
           Create an account
         </Link>
       </p>
-      <div className="rounded-lg bg-neutral-50 p-3 text-xs text-neutral-500">
-        <p className="mb-1 font-medium text-neutral-700">Demo accounts</p>
+      <div className="rounded-lg bg-canvas p-3 text-xs text-ink-muted">
+        <p className="mb-1 font-medium text-ink-secondary">Demo accounts</p>
         {DEMO_ACCOUNTS.map((a) => (
           <p key={a.email} className="font-mono">
             {a.label}: {a.email} / {a.password}
@@ -89,11 +89,11 @@ export function SignupForm() {
         errorMessage={errors.password}
         containerClassName="max-w-none"
       />
-      {state?.error ? <p role="alert" className="text-sm text-rose-600">{state.error}</p> : null}
+      {state?.error ? <p role="alert" className="text-sm text-danger">{state.error}</p> : null}
       <SubmitButton pending={pending} label="Create account" />
-      <p className="text-center text-sm text-neutral-500">
+      <p className="text-center text-sm text-ink-muted">
         Already have an account?{" "}
-        <Link href="/login" className="font-medium text-indigo-600 hover:underline">
+        <Link href="/login" className="font-medium text-accent hover:underline">
           Sign in
         </Link>
       </p>
@@ -106,7 +106,7 @@ function SubmitButton({ pending, label }: { pending: boolean; label: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="flex h-10 items-center justify-center gap-2 rounded-lg bg-indigo-600 text-sm font-medium text-white transition hover:bg-indigo-700 disabled:opacity-60"
+      className="flex h-10 items-center justify-center gap-2 rounded-lg bg-accent text-sm font-medium text-white transition hover:bg-accent-hover disabled:opacity-60"
     >
       {pending ? <SpinLoader size="sm" iconClassName="text-white" label="" /> : null}
       {label}

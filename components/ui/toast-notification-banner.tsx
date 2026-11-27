@@ -68,9 +68,9 @@ export const ToastNotificationBanner = forwardRef<
           type="button"
           onClick={handleShow}
           className={cn(
-            "cursor-pointer rounded-xl bg-[#f2f2f7] px-4 py-2 text-xs font-medium text-neutral-700",
+            "cursor-pointer rounded-xl bg-subtle px-4 py-2 text-xs font-medium text-ink-secondary",
             "opacity-100 starting:opacity-0",
-            "transition-opacity duration-280 ease-out hover:bg-[#e8e8ed]",
+            "transition-opacity duration-280 ease-out hover:bg-line",
             className,
           )}
         >
@@ -85,7 +85,7 @@ export const ToastNotificationBanner = forwardRef<
         data-slot="toast-notification-banner"
         data-phase={phase}
         className={cn(
-          "inline-flex max-w-80 items-center gap-2.5 rounded-xl border border-neutral-200/80 bg-white/95 px-3 py-2.5 font-sans backdrop-blur-xl",
+          "inline-flex max-w-80 items-center gap-2.5 rounded-xl border border-line/80 bg-white/95 px-3 py-2.5 font-sans backdrop-blur-xl",
           "shadow-[0_4px_24px_-2px_rgba(0,0,0,0.10),0_0_0_1px_rgba(0,0,0,0.02)]",
           "translate-y-0 opacity-100 starting:translate-y-3 starting:opacity-0",
           "transition-all duration-340 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]",
@@ -97,12 +97,12 @@ export const ToastNotificationBanner = forwardRef<
       >
         <span
           aria-hidden
-          className="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500"
+          className="flex size-5 shrink-0 items-center justify-center rounded-full bg-success"
         >
           <Check size={11} strokeWidth={3} className="text-white" />
         </span>
 
-        <p className="min-w-0 flex-1 text-[13px] leading-tight text-neutral-800">
+        <p className="min-w-0 flex-1 text-[13px] leading-tight text-ink">
           {message}
         </p>
 
@@ -110,7 +110,7 @@ export const ToastNotificationBanner = forwardRef<
           <button
             type="button"
             onClick={onAction}
-            className="shrink-0 cursor-pointer text-[13px] font-semibold text-sky-600 transition-colors hover:text-sky-700"
+            className="shrink-0 cursor-pointer text-[13px] font-semibold text-accent transition-colors hover:text-accent-hover"
           >
             {actionLabel}
           </button>
@@ -120,7 +120,7 @@ export const ToastNotificationBanner = forwardRef<
           type="button"
           onClick={handleDismiss}
           aria-label="Dismiss"
-          className="shrink-0 cursor-pointer px-0.5 text-[11px] text-neutral-400 transition-colors hover:text-neutral-600"
+          className="shrink-0 cursor-pointer px-0.5 text-[11px] text-ink-muted transition-colors hover:text-ink-secondary"
         >
           ✕
         </button>

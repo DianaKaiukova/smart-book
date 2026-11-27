@@ -101,27 +101,27 @@ export function ChatPanel({ className, onClose }: { className?: string; onClose?
   }
 
   return (
-    <div className={cn("flex min-h-0 flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white", className)}>
-      <div className="flex items-center gap-2 border-b border-neutral-100 px-4 py-3">
-        <span className="flex size-7 items-center justify-center rounded-lg bg-indigo-600 text-white">
+    <div className={cn("flex min-h-0 flex-col overflow-hidden rounded-2xl border border-line bg-white", className)}>
+      <div className="flex items-center gap-2 border-b border-line px-4 py-3">
+        <span className="flex size-7 items-center justify-center rounded-lg bg-accent text-white">
           <Bot className="size-4" aria-hidden />
         </span>
         <div className="flex-1">
-          <p className="text-sm font-semibold text-neutral-900">SmartBook assistant</p>
-          <p className="text-[11px] text-neutral-500">Asks before it books or cancels anything</p>
+          <p className="text-sm font-semibold text-ink">SmartBookBot</p>
+          <p className="text-[11px] text-ink-muted">Asks before it books or cancels anything</p>
         </div>
         {entries.length > 0 ? (
           <button
             type="button"
             title="Clear conversation"
             onClick={() => setEntries([])}
-            className="rounded-lg p-1.5 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"
+            className="rounded-lg p-1.5 text-ink-muted hover:bg-subtle hover:text-ink-secondary"
           >
             <Trash2 className="size-4" aria-hidden />
           </button>
         ) : null}
         {onClose ? (
-          <button type="button" title="Close" onClick={onClose} className="rounded-lg p-1.5 text-neutral-400 hover:bg-neutral-100">
+          <button type="button" title="Close" onClick={onClose} className="rounded-lg p-1.5 text-ink-muted hover:bg-subtle">
             <X className="size-4" aria-hidden />
           </button>
         ) : null}
@@ -130,13 +130,13 @@ export function ChatPanel({ className, onClose }: { className?: string; onClose?
       <div ref={scrollRef} className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-4">
         {entries.length === 0 ? (
           <div className="flex flex-col gap-2">
-            <p className="text-sm text-neutral-500">Try asking:</p>
+            <p className="text-sm text-ink-muted">Try asking:</p>
             {SUGGESTIONS.map((s) => (
               <button
                 key={s}
                 type="button"
                 onClick={() => void send(s)}
-                className="rounded-xl border border-neutral-200 px-3 py-2 text-left text-sm text-neutral-700 hover:border-indigo-300 hover:bg-indigo-50"
+                className="rounded-xl border border-line px-3 py-2 text-left text-sm text-ink-secondary hover:border-accent hover:bg-accent-soft"
               >
                 {s}
               </button>
@@ -148,22 +148,22 @@ export function ChatPanel({ className, onClose }: { className?: string; onClose?
             <div
               className={cn(
                 "max-w-[85%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm",
-                entry.role === "user" && "bg-indigo-600 text-white",
-                entry.role === "assistant" && !entry.error && "bg-neutral-100 text-neutral-900",
-                entry.error && "border border-rose-200 bg-rose-50 text-rose-800",
+                entry.role === "user" && "bg-accent text-white",
+                entry.role === "assistant" && !entry.error && "bg-subtle text-ink",
+                entry.error && "border border-danger-soft bg-danger-soft text-danger",
               )}
             >
               {entry.content}
             </div>
             {entry.pending ? (
-              <div className="flex max-w-[85%] flex-col gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+              <div className="flex max-w-[85%] flex-col gap-2 rounded-xl border border-warning-soft bg-warning-soft p-3 text-sm text-warning">
                 <p className="font-medium">{entry.pending.summary}?</p>
                 <div className="flex gap-2">
                   <button
                     type="button"
                     disabled={busy}
                     onClick={() => void resolve(index, entry.pending!, true)}
-                    className="flex items-center gap-1 rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-indigo-700 disabled:opacity-60"
+                    className="flex items-center gap-1 rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-60"
                   >
                     <Check className="size-3.5" aria-hidden /> Confirm
                   </button>
@@ -171,7 +171,7 @@ export function ChatPanel({ className, onClose }: { className?: string; onClose?
                     type="button"
                     disabled={busy}
                     onClick={() => void resolve(index, entry.pending!, false)}
-                    className="rounded-lg border border-amber-300 px-3 py-1.5 text-xs font-medium hover:bg-white disabled:opacity-60"
+                    className="rounded-lg border border-warning px-3 py-1.5 text-xs font-medium hover:bg-white disabled:opacity-60"
                   >
                     Cancel
                   </button>
@@ -180,21 +180,21 @@ export function ChatPanel({ className, onClose }: { className?: string; onClose?
             ) : null}
           </div>
         ))}
-        {busy ? <SpinLoader size="sm" label="Thinking…" className="self-start text-neutral-400" /> : null}
+        {busy ? <SpinLoader size="sm" label="Thinking…" className="self-start text-ink-muted" /> : null}
       </div>
 
-      <form onSubmit={onSubmit} className="flex gap-2 border-t border-neutral-100 p-3">
+      <form onSubmit={onSubmit} className="flex gap-2 border-t border-line p-3">
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask for a room…"
           maxLength={1000}
-          className="min-w-0 flex-1 rounded-xl border border-neutral-300 px-3 py-2 text-sm outline-none focus:border-indigo-500"
+          className="min-w-0 flex-1 rounded-xl border border-line px-3 py-2 text-sm outline-none focus:border-accent"
         />
         <button
           type="submit"
           disabled={busy || !input.trim()}
-          className="flex size-9 items-center justify-center rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50"
+          className="flex size-9 items-center justify-center rounded-xl bg-accent text-white hover:bg-accent-hover disabled:opacity-50"
         >
           <Send className="size-4" aria-hidden />
           <span className="sr-only">Send</span>

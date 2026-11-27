@@ -43,7 +43,7 @@ export function BookingActions({
           type="button"
           disabled={pending}
           onClick={() => run(() => checkInAction(bookingId))}
-          className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700 disabled:opacity-60"
+          className="rounded-lg bg-success px-3 py-1.5 text-xs font-medium text-white hover:opacity-90 disabled:opacity-60"
         >
           Check in
         </button>
@@ -52,7 +52,7 @@ export function BookingActions({
         type="button"
         disabled={pending}
         onClick={() => run(() => cancelBookingAction(bookingId))}
-        className="rounded-lg border border-neutral-300 px-3 py-1.5 text-xs font-medium hover:bg-neutral-50 disabled:opacity-60"
+        className="rounded-lg border border-line px-3 py-1.5 text-xs font-medium hover:bg-canvas disabled:opacity-60"
       >
         Cancel
       </button>

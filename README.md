@@ -1,6 +1,6 @@
 # SmartBook
 
-Campus room booking for Building Z, with live (simulated) occupancy, ghost-booking detection, an AI booking assistant (OpenAI) and door kiosks.
+Campus room booking for Building Z, with live (simulated) occupancy, ghost-booking detection, an AI booking assistant, SmartBookBot (OpenAI) and door kiosks.
 
 ## Stack
 
@@ -22,7 +22,7 @@ npm run dev                 # http://localhost:3000
 | --- | --- |
 | `DATABASE_URL` | SQLite file, default `file:./dev.db` |
 | `AUTH_SECRET` | Auth.js secret (`npx auth secret`) |
-| `OPENAI_API_KEY` | Enables the assistant |
+| `OPENAI_API_KEY` | Enables SmartBookBot |
 | `OPENAI_MODEL` | Default `gpt-5-mini` |
 | `OCCUPANCY_SOURCE` | `sim` (default) or `board` |
 | `OCCUPANCY_INGEST_KEY` | Shared key for `POST /api/occupancy` |
@@ -48,7 +48,7 @@ Admins can toggle simulated occupancy per room and restart the demo from `/admin
 ## Pages
 
 - `/` floor view · `/rooms/[id]` room detail + booking · `/bookings` my bookings
-- `/assistant` AI assistant (also docked on every page; write actions require confirmation)
+- `/assistant` SmartBookBot AI assistant (also docked on every page; write actions require confirmation)
 - `/admin`, `/admin/rooms` admin dashboard and room editor
 - `/door/[id]` public door kiosk display
 

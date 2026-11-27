@@ -50,7 +50,7 @@ export function FloorView({
     <div className="flex flex-col gap-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         {floors.length > 1 ? (
-          <div role="tablist" aria-label="Floor" className="inline-flex gap-1 rounded-(--radius) bg-(--segment-bg) p-1">
+          <div role="tablist" aria-label="Floor" className="inline-flex gap-1 rounded-(--radius) bg-subtle p-1">
             {floors.map((f) => (
               <button
                 key={f}
@@ -61,8 +61,8 @@ export function FloorView({
                 className={cn(
                   "rounded-lg px-3.5 py-1.5 text-[13px] font-medium transition-colors",
                   f === floor
-                    ? "bg-(--surface) text-(--text-primary) shadow-(--shadow-sm)"
-                    : "text-(--text-secondary) hover:text-(--text-primary)",
+                    ? "bg-surface text-ink shadow-(--shadow-sm)"
+                    : "text-ink-secondary hover:text-ink",
                 )}
               >
                 Floor {f}
@@ -93,7 +93,7 @@ export function FloorView({
           </div>
         ))}
         {visible.length === 0 ? (
-          <p className="py-16 text-center text-[13px] text-(--text-secondary)">No free rooms on this floor right now.</p>
+          <p className="py-16 text-center text-[13px] text-ink-secondary">No free rooms on this floor right now.</p>
         ) : null}
       </div>
     </div>
@@ -107,19 +107,19 @@ function FreeNowSwitch({ checked, onChange }: { checked: boolean; onChange: (val
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className="inline-flex items-center gap-2.5 text-[13px] font-medium text-(--text-secondary) hover:text-(--text-primary)"
+      className="inline-flex items-center gap-2.5 text-[13px] font-medium text-ink-secondary hover:text-ink"
     >
       Free now only
       <span
         aria-hidden
         className={cn(
           "relative h-5 w-9 rounded-full transition-colors",
-          checked ? "bg-(--text-primary)" : "bg-(--border)",
+          checked ? "bg-ink" : "bg-line",
         )}
       >
         <span
           className={cn(
-            "absolute top-0.5 left-0.5 size-4 rounded-full bg-(--surface) shadow-(--shadow-sm) transition-transform",
+            "absolute top-0.5 left-0.5 size-4 rounded-full bg-surface shadow-(--shadow-sm) transition-transform",
             checked && "translate-x-4",
           )}
         />
@@ -131,8 +131,8 @@ function FreeNowSwitch({ checked, onChange }: { checked: boolean; onChange: (val
 function CorridorDivider() {
   return (
     <div className="relative my-8 flex items-center justify-center" role="separator">
-      <span aria-hidden className="absolute inset-x-0 top-1/2 h-px bg-(--border)" />
-      <span className="relative bg-(--surface-alt) px-3 text-[11px] font-medium tracking-[0.08em] text-(--text-muted) uppercase">
+      <span aria-hidden className="absolute inset-x-0 top-1/2 h-px bg-line" />
+      <span className="relative bg-canvas px-3 text-[11px] font-medium tracking-[0.08em] text-ink-muted uppercase">
         Corridor
       </span>
     </div>
@@ -161,23 +161,23 @@ function RoomCard({
           {/* Stretched link: the whole card navigates, while the Grab button stays separately clickable. */}
           <Link
             href={`/rooms/${encodeURIComponent(room.id)}`}
-            className="text-sm font-semibold tracking-[-0.01em] text-(--text-primary) tabular-nums outline-none after:absolute after:inset-0 after:rounded-(--radius) focus-visible:after:ring-2 focus-visible:after:ring-(--accent)"
+            className="text-sm font-semibold tracking-[-0.01em] text-ink tabular-nums outline-none after:absolute after:inset-0 after:rounded-(--radius) focus-visible:after:ring-2 focus-visible:after:ring-accent"
           >
             {room.id}
           </Link>
-          <span className="flex items-center gap-1 text-[11px] text-(--text-muted) tabular-nums" title="Capacity">
+          <span className="flex items-center gap-1 text-[11px] text-ink-muted tabular-nums" title="Capacity">
             <Users className="size-3" aria-hidden />
             <span className="sr-only">Capacity</span>
             {room.capacity}
           </span>
         </div>
-        <span className="truncate text-[13px] text-(--text-secondary)">{room.name}</span>
+        <span className="truncate text-[13px] text-ink-secondary">{room.name}</span>
       </div>
 
       <span
         className={cn(
-          "mt-3 inline-flex items-center gap-1.5 self-start rounded-full border border-(--border) bg-(--surface-alt) px-2 py-0.5 text-xs font-medium text-(--text-primary)",
-          dimmed && "text-(--text-secondary)",
+          "mt-3 inline-flex items-center gap-1.5 self-start rounded-full border border-line bg-canvas px-2 py-0.5 text-xs font-medium text-ink",
+          dimmed && "text-ink-secondary",
         )}
       >
         <span aria-hidden className={cn("size-2 rounded-full", STATE_META[state].dot)} />
@@ -185,7 +185,7 @@ function RoomCard({
       </span>
 
       <div className="mt-auto pt-4">
-        <div className="flex flex-col gap-1 border-t border-(--border) pt-3 text-[11px] leading-4 text-(--text-muted) tabular-nums">
+        <div className="flex flex-col gap-1 border-t border-line pt-3 text-[11px] leading-4 text-ink-muted tabular-nums">
           {state === "ghost_booking" && !booking?.isMine ? (
             <GrabButton roomId={room.id} onBooked={onBooked} />
           ) : booking ? (
@@ -202,7 +202,7 @@ function RoomCard({
               level={status.noiseLevel}
               db={status.noiseDb}
               sensorOnline={status.sensorOnline}
-              className="text-[11px] text-(--text-muted) [&_svg]:size-3"
+              className="text-[11px] text-ink-muted [&_svg]:size-3"
             />
           ) : null}
         </div>
@@ -232,7 +232,7 @@ function GrabButton({ roomId, onBooked }: { roomId: string; onBooked: () => void
       type="button"
       onClick={grab}
       disabled={pending}
-      className="relative z-10 mb-1 self-start rounded-lg bg-(--accent) px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-(--accent-hover) focus-visible:ring-2 focus-visible:ring-(--accent) focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-60"
+      className="relative z-10 mb-1 self-start rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-accent-hover focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-60"
     >
       {pending ? "Booking…" : "Grab it now"}
     </button>

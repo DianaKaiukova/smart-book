@@ -3,33 +3,42 @@
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* SmartBook palette — the only colours used in the app. */
+  --color-canvas: #faf9f6;
+  --color-surface: #ffffff;
+  --color-line: #e7e3dc;
+  --color-subtle: #f1eee8;
+  --color-ink: #2b2823;
+  --color-ink-secondary: #57514a;
+  --color-ink-muted: #8c8579;
+  --color-accent: #2f5d50;
+  --color-accent-hover: #244a40;
+  --color-accent-soft: #e8f0ed;
+  --color-success: #3a7d44;
+  --color-success-soft: #e9f3ea;
+  --color-warning: #d97706;
+  --color-warning-soft: #fbefdf;
+  --color-danger: #b3413c;
+  --color-danger-soft: #f6e7e5;
+
+  /* Room status dots */
+  --color-status-free: var(--color-success);
+  --color-status-ghost: var(--color-accent);
+  --color-status-busy: var(--color-ink-muted);
+  --color-status-occ: var(--color-warning);
 }
 
 :root {
   color-scheme: light;
 
-  --accent: #7c3aed; /* purple — CTAs and Ghost only */
-  --accent-hover: #6d28d9;
-  --surface: #ffffff;
-  --surface-alt: #f9fafb;
-  --segment-bg: #f3f4f6;
-  --border: #e5e7eb;
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --text-muted: #9ca3af;
-  --status-free: #10b981;
-  --status-ghost: #7c3aed;
-  --status-busy: #9ca3af;
-  --status-occ: #f59e0b;
   --radius: 10px;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 1px 2px rgba(43, 40, 35, 0.05);
+  --shadow-md: 0 4px 12px rgba(43, 40, 35, 0.08);
 }
 
 body {
-  @apply font-sans;
-  background: var(--surface-alt);
-  color: var(--text-primary);
+  @apply bg-canvas font-sans text-ink;
 }
 
 @layer components {
@@ -38,8 +47,8 @@ body {
     display: flex;
     flex-direction: column;
     padding: 16px;
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
     border-radius: var(--radius);
     box-shadow: var(--shadow-sm);
     cursor: pointer;
@@ -62,7 +71,7 @@ body {
     width: 8px;
     height: 8px;
     border-radius: 9999px;
-    background: var(--status-free);
+    background: var(--color-status-free);
   }
 
   .live-dot::after {

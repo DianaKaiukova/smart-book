@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description: "Book study rooms in Building Z — with live occupancy so ghost bookings get freed up.",
 };
 
-export const viewport: Viewport = { themeColor: "#4f46e5" };
+export const viewport: Viewport = { themeColor: "#2F5D50" };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

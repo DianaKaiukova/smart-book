@@ -12,11 +12,11 @@ import type { DoorState } from "@/lib/rooms/door-types";
 import { usePolling } from "@/lib/use-polling";
 
 const SCREEN: Record<RoomState, { title: string; bg: string }> = {
-  free: { title: "Available", bg: "from-emerald-600 to-emerald-800" },
-  booked: { title: "Booked", bg: "from-sky-600 to-sky-800" },
-  booked_in_use: { title: "In use", bg: "from-indigo-600 to-indigo-900" },
-  occupied: { title: "In use · not booked", bg: "from-orange-500 to-orange-700" },
-  ghost_booking: { title: "Booked, but empty", bg: "from-fuchsia-600 to-fuchsia-900" },
+  free: { title: "Available", bg: "from-success to-success" },
+  booked: { title: "Booked", bg: "from-accent to-accent-hover" },
+  booked_in_use: { title: "In use", bg: "from-ink-secondary to-ink" },
+  occupied: { title: "In use · not booked", bg: "from-warning to-warning" },
+  ghost_booking: { title: "Booked, but empty", bg: "from-accent to-accent-hover" },
 };
 
 export function DoorKiosk({ initial, pollIntervalMs }: { initial: DoorState; pollIntervalMs: number }) {

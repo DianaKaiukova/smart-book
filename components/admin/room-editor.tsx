@@ -7,7 +7,7 @@ import { useToast } from "@/components/layout/toaster";
 import { createRoomAction, deleteRoomAction, updateRoomAction, type RoomFormState } from "@/lib/admin/actions";
 import type { RoomView } from "@/lib/rooms/rooms-types";
 
-const input = "w-full rounded-lg border border-neutral-300 px-2 py-1.5 text-sm";
+const input = "w-full rounded-lg border border-line px-2 py-1.5 text-sm";
 
 export function RoomEditor({ rooms }: { rooms: RoomView[] }) {
   return (
@@ -38,32 +38,32 @@ function RoomForm({ mode, room }: { mode: "create" | "edit"; room?: RoomView }) 
   return (
     <form
       action={action}
-      className="grid grid-cols-2 items-end gap-2 rounded-xl border border-neutral-200 bg-white p-3 sm:grid-cols-[110px_1fr_80px_80px_1fr_auto]"
+      className="grid grid-cols-2 items-end gap-2 rounded-xl border border-line bg-white p-3 sm:grid-cols-[110px_1fr_80px_80px_1fr_auto]"
     >
-      <label className="flex flex-col gap-1 text-xs text-neutral-500">
+      <label className="flex flex-col gap-1 text-xs text-ink-muted">
         Id
         {mode === "edit" ? (
           <>
             <input type="hidden" name="id" value={room!.id} />
-            <span className="py-1.5 font-mono text-sm text-neutral-900">{room!.id}</span>
+            <span className="py-1.5 font-mono text-sm text-ink">{room!.id}</span>
           </>
         ) : (
           <input name="id" placeholder="Z.1.13" required className={`${input} font-mono`} />
         )}
       </label>
-      <label className="flex flex-col gap-1 text-xs text-neutral-500">
+      <label className="flex flex-col gap-1 text-xs text-ink-muted">
         Name
         <input name="name" defaultValue={room?.name} required className={input} />
       </label>
-      <label className="flex flex-col gap-1 text-xs text-neutral-500">
+      <label className="flex flex-col gap-1 text-xs text-ink-muted">
         Floor
         <input name="floor" defaultValue={room?.floor ?? "Z-1"} required className={input} />
       </label>
-      <label className="flex flex-col gap-1 text-xs text-neutral-500">
+      <label className="flex flex-col gap-1 text-xs text-ink-muted">
         Capacity
         <input name="capacity" type="number" min={1} max={200} defaultValue={room?.capacity ?? 4} required className={input} />
       </label>
-      <label className="col-span-2 flex flex-col gap-1 text-xs text-neutral-500 sm:col-span-1">
+      <label className="col-span-2 flex flex-col gap-1 text-xs text-ink-muted sm:col-span-1">
         Amenities (comma separated)
         <input name="amenities" defaultValue={room?.amenities.join(", ")} className={input} />
       </label>
@@ -71,7 +71,7 @@ function RoomForm({ mode, room }: { mode: "create" | "edit"; room?: RoomView }) 
         <button
           type="submit"
           disabled={pending}
-          className="rounded-lg bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-60"
+          className="rounded-lg bg-accent px-3 py-1.5 text-sm font-medium text-white hover:bg-accent-hover disabled:opacity-60"
         >
           {mode === "create" ? "Add room" : "Save"}
         </button>
@@ -82,7 +82,7 @@ function RoomForm({ mode, room }: { mode: "create" | "edit"; room?: RoomView }) 
               target="_blank"
               rel="noreferrer"
               title="Open door kiosk"
-              className="rounded-lg p-2 text-neutral-500 hover:bg-neutral-100"
+              className="rounded-lg p-2 text-ink-muted hover:bg-subtle"
             >
               <ExternalLink className="size-4" aria-hidden />
             </a>
@@ -98,7 +98,7 @@ function RoomForm({ mode, room }: { mode: "create" | "edit"; room?: RoomView }) 
                   else toast.error(result.error);
                 });
               }}
-              className="rounded-lg p-2 text-rose-600 hover:bg-rose-50 disabled:opacity-60"
+              className="rounded-lg p-2 text-danger hover:bg-danger-soft disabled:opacity-60"
             >
               <Trash2 className="size-4" aria-hidden />
             </button>

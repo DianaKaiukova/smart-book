@@ -46,11 +46,11 @@ export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>(
       >
         <label
           htmlFor={inputId}
-          className="mb-1.5 block text-sm font-medium text-neutral-900"
+          className="mb-1.5 block text-sm font-medium text-ink"
         >
           {label}
           {required ? (
-            <span className="ml-0.5 text-rose-500" aria-hidden>
+            <span className="ml-0.5 text-danger" aria-hidden>
               *
             </span>
           ) : null}
@@ -65,21 +65,21 @@ export const TextFieldInput = forwardRef<HTMLInputElement, TextFieldInputProps>(
           aria-invalid={error || undefined}
           aria-describedby={error ? errorId : hint ? hintId : undefined}
           className={cn(
-            "h-10 w-full rounded-lg border bg-white px-3.5 font-sans text-sm text-neutral-900 ring-0 transition-[border-color,background-color] duration-200 outline-none placeholder:text-neutral-400 focus:ring-0 disabled:cursor-not-allowed disabled:bg-neutral-50 disabled:text-neutral-400",
+            "h-10 w-full rounded-lg border bg-white px-3.5 font-sans text-sm text-ink ring-0 transition-[border-color,background-color] duration-200 outline-none placeholder:text-ink-muted focus:ring-0 disabled:cursor-not-allowed disabled:bg-canvas disabled:text-ink-muted",
             error
-              ? "border-rose-300 focus:border-rose-400"
-              : "border-neutral-200 focus:border-neutral-900",
+              ? "border-danger focus:border-danger"
+              : "border-line focus:border-ink",
             className,
           )}
           {...props}
         />
 
         {error ? (
-          <p id={errorId} role="alert" className="mt-1.5 text-xs text-rose-600">
+          <p id={errorId} role="alert" className="mt-1.5 text-xs text-danger">
             {errorMessage}
           </p>
         ) : hint ? (
-          <p id={hintId} className="mt-1.5 text-xs text-neutral-500">
+          <p id={hintId} className="mt-1.5 text-xs text-ink-muted">
             {hint}
           </p>
         ) : null}

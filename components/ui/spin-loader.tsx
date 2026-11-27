@@ -43,7 +43,7 @@ export function SpinLoader({
         size={iconSize}
         strokeWidth={2}
         className={cn(
-          "animate-spin text-neutral-900 motion-reduce:animate-none",
+          "animate-spin text-ink motion-reduce:animate-none",
           iconClassName,
         )}
         aria-hidden

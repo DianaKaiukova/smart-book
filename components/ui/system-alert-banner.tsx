@@ -70,9 +70,9 @@ export const SystemAlertBanner = forwardRef<
           type="button"
           onClick={handleShow}
           className={cn(
-            "cursor-pointer rounded-xl bg-[#f2f2f7] px-4 py-2 text-xs font-medium text-neutral-700",
+            "cursor-pointer rounded-xl bg-subtle px-4 py-2 text-xs font-medium text-ink-secondary",
             "opacity-100 starting:opacity-0",
-            "transition-opacity duration-280 ease-out hover:bg-[#e8e8ed]",
+            "transition-opacity duration-280 ease-out hover:bg-line",
             className,
           )}
         >
@@ -101,13 +101,13 @@ export const SystemAlertBanner = forwardRef<
           type="button"
           onClick={handleDismiss}
           aria-label="Dismiss notification"
-          className="absolute top-2 right-2 z-10 flex size-6 cursor-pointer items-center justify-center rounded-full text-neutral-400 transition-colors duration-150 hover:bg-black/5 hover:text-neutral-600"
+          className="absolute top-2 right-2 z-10 flex size-6 cursor-pointer items-center justify-center rounded-full text-ink-muted transition-colors duration-150 hover:bg-black/5 hover:text-ink-secondary"
         >
           <X size={10} />
         </button>
 
         <div className="grid grid-cols-[2.375rem_minmax(0,1fr)] items-start gap-x-3 gap-y-1 px-3.5 py-3 pr-9">
-          <div className="row-span-2 mt-0.5 flex size-9.5 shrink-0 items-center justify-center rounded-[0.625rem] bg-amber-400 shadow-sm ring-1 ring-black/2">
+          <div className="row-span-2 mt-0.5 flex size-9.5 shrink-0 items-center justify-center rounded-[0.625rem] bg-warning shadow-sm ring-1 ring-black/2">
             <AlertTriangle
               size={18}
               strokeWidth={2}
@@ -117,17 +117,17 @@ export const SystemAlertBanner = forwardRef<
           </div>
 
           <div className="col-start-2 flex min-w-0 items-center justify-between gap-2">
-            <p className="truncate text-[13px] leading-tight font-semibold text-neutral-900">
+            <p className="truncate text-[13px] leading-tight font-semibold text-ink">
               {appName}
             </p>
-            <span className="shrink-0 text-[11px] leading-none tracking-tight text-neutral-400 capitalize">
+            <span className="shrink-0 text-[11px] leading-none tracking-tight text-ink-muted capitalize">
               {time}
             </span>
           </div>
 
-          <p className="col-start-2 line-clamp-2 text-[13px] leading-[1.38] text-neutral-700">
-            <span className="font-semibold text-neutral-900">{title}</span>
-            <span className="text-neutral-500">: </span>
+          <p className="col-start-2 line-clamp-2 text-[13px] leading-[1.38] text-ink-secondary">
+            <span className="font-semibold text-ink">{title}</span>
+            <span className="text-ink-muted">: </span>
             {description}
           </p>
         </div>

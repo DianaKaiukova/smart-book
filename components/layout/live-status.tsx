@@ -31,14 +31,14 @@ export function LiveIndicator() {
 
   if (status.error) {
     return (
-      <span className="flex shrink-0 items-center gap-2 text-xs text-(--text-secondary)">
-        <span aria-hidden className="size-2 rounded-full bg-(--status-occ)" />
+      <span className="flex shrink-0 items-center gap-2 text-xs text-ink-secondary">
+        <span aria-hidden className="size-2 rounded-full bg-status-occ" />
         Reconnecting…
       </span>
     );
   }
   return (
-    <span className="flex shrink-0 items-center gap-2 text-xs text-(--text-secondary) tabular-nums" aria-live="off">
+    <span className="flex shrink-0 items-center gap-2 text-xs text-ink-secondary tabular-nums" aria-live="off">
       <span aria-hidden className="live-dot" />
       Live · {formatTime(status.now)}
     </span>

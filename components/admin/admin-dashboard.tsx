@@ -59,19 +59,19 @@ export function AdminDashboard({ initial, pollIntervalMs }: { initial: AdminStat
     <div className="flex flex-col gap-6">
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
         {cards.map((c) => (
-          <div key={c.label} className="rounded-2xl border border-neutral-200 bg-white p-4">
-            <p className="text-xs text-neutral-500">{c.label}</p>
-            <p className="mt-1 text-2xl font-semibold tabular-nums text-neutral-900">{c.value}</p>
+          <div key={c.label} className="rounded-2xl border border-line bg-white p-4">
+            <p className="text-xs text-ink-muted">{c.label}</p>
+            <p className="mt-1 text-2xl font-semibold tabular-nums text-ink">{c.value}</p>
           </div>
         ))}
       </div>
 
-      <section className="flex flex-col gap-3 rounded-2xl border border-fuchsia-200 bg-fuchsia-50/50 p-4">
-        <h2 className="flex items-center gap-2 font-semibold text-fuchsia-900">
+      <section className="flex flex-col gap-3 rounded-2xl border border-accent-soft bg-accent-soft/50 p-4">
+        <h2 className="flex items-center gap-2 font-semibold text-accent-hover">
           <Ghost className="size-5" aria-hidden /> Ghost bookings ({ghosts.length})
         </h2>
         {ghosts.length === 0 ? (
-          <p className="text-sm text-fuchsia-900/70">
+          <p className="text-sm text-accent-hover/70">
             None right now. A booking becomes a ghost when its room stays empty {data.ghostAfterMinutes} min after the start.
           </p>
         ) : (
@@ -81,13 +81,13 @@ export function AdminDashboard({ initial, pollIntervalMs }: { initial: AdminStat
                 <span className="font-mono font-semibold">{room.roomId}</span>
                 <span className="flex-1">
                   {room.activeBooking?.holderName} · {room.activeBooking ? formatRange(room.activeBooking.start, room.activeBooking.end) : null}
-                  {room.ghostAt ? <span className="text-neutral-500"> · empty, ghost since {formatTime(room.ghostAt)}</span> : null}
+                  {room.ghostAt ? <span className="text-ink-muted"> · empty, ghost since {formatTime(room.ghostAt)}</span> : null}
                 </span>
                 <button
                   type="button"
                   disabled={pending}
                   onClick={() => reclaim(room.roomId)}
-                  className="rounded-lg bg-fuchsia-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-fuchsia-700 disabled:opacity-60"
+                  className="rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white hover:bg-accent-hover disabled:opacity-60"
                 >
                   Reclaim room
                 </button>
@@ -99,7 +99,7 @@ export function AdminDashboard({ initial, pollIntervalMs }: { initial: AdminStat
 
       <section className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-neutral-500">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-muted">
             Live occupancy · source: {data.occupancySource === "sim" ? "simulator" : "PSOC Edge board"}
           </h2>
           {data.sim ? (
@@ -107,15 +107,15 @@ export function AdminDashboard({ initial, pollIntervalMs }: { initial: AdminStat
               type="button"
               disabled={pending}
               onClick={restart}
-              className="flex items-center gap-1.5 rounded-lg border border-neutral-300 bg-white px-3 py-1.5 text-xs font-medium hover:bg-neutral-50 disabled:opacity-60"
+              className="flex items-center gap-1.5 rounded-lg border border-line bg-white px-3 py-1.5 text-xs font-medium hover:bg-canvas disabled:opacity-60"
             >
               <RotateCcw className="size-3.5" aria-hidden /> Restart demo ({data.sim.secondsSinceStart}s)
             </button>
           ) : null}
         </div>
-        <div className="overflow-x-auto rounded-2xl border border-neutral-200 bg-white">
+        <div className="overflow-x-auto rounded-2xl border border-line bg-white">
           <table className="w-full min-w-[760px] text-left text-sm">
-            <thead className="bg-neutral-50 text-xs uppercase text-neutral-500">
+            <thead className="bg-canvas text-xs uppercase text-ink-muted">
               <tr>
                 <th className="px-3 py-2">Room</th>
                 <th className="px-3 py-2">State</th>
@@ -124,7 +124,7 @@ export function AdminDashboard({ initial, pollIntervalMs }: { initial: AdminStat
                 {data.sim ? <th className="px-3 py-2">Simulate</th> : null}
               </tr>
             </thead>
-            <tbody className="divide-y divide-neutral-100">
+            <tbody className="divide-y divide-line">
               {data.rooms.map((room) => (
                 <AdminRow
                   key={room.roomId}
@@ -161,22 +161,22 @@ function AdminRow({
 }) {
   const b = room.activeBooking;
   return (
-    <tr className={cn(room.state === "ghost_booking" && "bg-fuchsia-50/60")}>
+    <tr className={cn(room.state === "ghost_booking" && "bg-accent-soft/60")}>
       <td className="px-3 py-2">
         <Link href={`/rooms/${encodeURIComponent(room.roomId)}`} className="font-mono font-medium hover:underline">
           {room.roomId}
         </Link>
-        <p className="text-xs text-neutral-500">{room.name}</p>
+        <p className="text-xs text-ink-muted">{room.name}</p>
       </td>
       <td className="px-3 py-2">
         <StatusBadge state={room.state} />
         {room.state === "booked" && room.ghostAt ? (
-          <p className="mt-1 text-[11px] text-neutral-500">ghost {formatRelative(room.ghostAt, now)}</p>
+          <p className="mt-1 text-[11px] text-ink-muted">ghost {formatRelative(room.ghostAt, now)}</p>
         ) : null}
       </td>
       <td className="px-3 py-2 text-xs">
         {room.sensorOnline ? (
-          <span className={room.occupied ? "font-medium text-indigo-700" : "text-neutral-500"}>
+          <span className={room.occupied ? "font-medium text-accent-hover" : "text-ink-muted"}>
             {room.occupied ? `occupied${room.peopleCount ? ` · ${room.peopleCount} ppl` : ""}` : "empty"}
           </span>
         ) : null}
@@ -188,14 +188,14 @@ function AdminRow({
         {b ? (
           <>
             {b.holderName} · {formatRange(b.start, b.end)}
-            <span className={cn("ml-1", b.status === "CHECKED_IN" ? "text-emerald-700" : "text-neutral-400")}>
+            <span className={cn("ml-1", b.status === "CHECKED_IN" ? "text-success" : "text-ink-muted")}>
               {b.status === "CHECKED_IN" ? "checked in" : "not checked in"}
             </span>
           </>
         ) : room.nextBooking ? (
-          <span className="text-neutral-500">next {formatTime(room.nextBooking.start)}</span>
+          <span className="text-ink-muted">next {formatTime(room.nextBooking.start)}</span>
         ) : (
-          <span className="text-neutral-300">—</span>
+          <span className="text-ink-muted">—</span>
         )}
       </td>
       {showSim ? (
@@ -217,7 +217,7 @@ function AdminRow({
                   onClick={() => onOverride(room.roomId, value)}
                   className={cn(
                     "rounded-md px-2 py-1 text-[11px] font-medium",
-                    active ? "bg-neutral-900 text-white" : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200",
+                    active ? "bg-ink text-white" : "bg-subtle text-ink-secondary hover:bg-line",
                   )}
                 >
                   {label}
@@ -225,7 +225,7 @@ function AdminRow({
               );
             })}
           </div>
-          {sim?.note && sim.mode === "script" ? <p className="mt-1 text-[10px] text-neutral-400">{sim.note}</p> : null}
+          {sim?.note && sim.mode === "script" ? <p className="mt-1 text-[10px] text-ink-muted">{sim.note}</p> : null}
         </td>
       ) : null}
     </tr>

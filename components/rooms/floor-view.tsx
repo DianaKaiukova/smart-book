@@ -8,7 +8,7 @@ import { usePublishLiveStatus } from "@/components/layout/live-status";
 import { NoiseBadge } from "@/components/rooms/status-badge";
 import { STATE_META } from "@/components/rooms/status-meta";
 import { cn } from "@/lib/cn";
-import { formatRange, formatTime } from "@/lib/format";
+import { formatTime } from "@/lib/format";
 import type { PublicRoomStatus, StateResponse } from "@/lib/reconciliation/room-status-types";
 import type { RoomView } from "@/lib/rooms/rooms-types";
 import { usePolling } from "@/lib/use-polling";
@@ -192,15 +192,16 @@ function RoomCard({
 
       <div className="mt-auto pt-3">
         <div className="flex flex-col gap-1 border-t border-line pt-2.5 text-[13px] leading-5 text-ink-secondary tabular-nums">
-          {booking ? (
-            <span className="truncate">
-              {booking.isMine ? "You" : booking.holderFirstName}: {formatRange(booking.start, booking.end)}
-            </span>
-          ) : status?.nextBooking ? (
-            <span className="truncate">Free until {formatTime(status.nextBooking.start)}</span>
-          ) : state === "free" ? (
-            <span>Free all day</span>
-          ) : null}
+          {/* Always one line so the divider sits at the same height on every card. */}
+          <span className="truncate">
+            {booking
+              ? `${booking.isMine ? "Your booking" : "Booked"} until ${formatTime(booking.end)}`
+              : status?.nextBooking
+                ? `Free until ${formatTime(status.nextBooking.start)}`
+                : state === "free"
+                  ? "Free all day"
+                  : "No booking"}
+          </span>
           {status ? (
             <NoiseBadge
               level={status.noiseLevel}

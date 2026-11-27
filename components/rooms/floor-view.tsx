@@ -39,9 +39,8 @@ export function FloorView({
     const state = statusById.get(r.id)?.state;
     return state === "free" || state === "ghost_booking";
   });
-  // Corridor layout: first half along the top wall, second half along the bottom.
-  const half = Math.ceil(visible.length / 2);
-  const rows = freeOnly ? [visible] : [visible.slice(0, half), visible.slice(half)];
+  // List rooms in numeric order (N.0.07, N.0.14a, N.0.15, …).
+  const ordered = [...visible].sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));
 
   return (
     <div className="flex flex-col gap-4">
@@ -72,31 +71,19 @@ export function FloorView({
         <FreeNowSwitch checked={freeOnly} onChange={setFreeOnly} />
       </div>
 
-      {/* Mobile: two walls side by side with a vertical corridor; sm+: walls stacked with a horizontal corridor. */}
-      <div className={cn("flex flex-col", rows.length === 2 && "max-sm:grid max-sm:grid-cols-[1fr_auto_1fr]")}>
-        {rows.map((row, rowIndex) => [
-          rowIndex === 1 ? <CorridorDivider key={`${floor}-corridor`} /> : null,
-          <div
-            key={`${floor}-${rowIndex}`}
-            className={cn(
-              "grid content-start gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6 2xl:grid-cols-8",
-              rows.length === 2 ? "grid-cols-1" : "grid-cols-2",
-            )}
-          >
-            {row.map((room, i) => (
-              <RoomCard
-                key={room.id}
-                room={room}
-                status={statusById.get(room.id)}
-                delayMs={(rowIndex * half + i) * STAGGER_MS}
-              />
-            ))}
-          </div>,
-        ])}
-        {visible.length === 0 ? (
-          <p className="py-12 text-center text-[15px] text-ink-secondary">No free rooms on this floor right now.</p>
-        ) : null}
+      <div className="grid content-start grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6 2xl:grid-cols-8">
+        {ordered.map((room, i) => (
+          <RoomCard
+            key={room.id}
+            room={room}
+            status={statusById.get(room.id)}
+            delayMs={i * STAGGER_MS}
+          />
+        ))}
       </div>
+      {visible.length === 0 ? (
+        <p className="py-12 text-center text-[15px] text-ink-secondary">No free rooms on this floor right now.</p>
+      ) : null}
     </div>
   );
 }
@@ -126,20 +113,6 @@ function FreeNowSwitch({ checked, onChange }: { checked: boolean; onChange: (val
         />
       </span>
     </button>
-  );
-}
-
-function CorridorDivider() {
-  return (
-    <div className="relative mx-2 flex items-center justify-center sm:mx-0 sm:my-4" role="separator">
-      <span
-        aria-hidden
-        className="absolute inset-y-0 left-1/2 w-px bg-line sm:inset-x-0 sm:inset-y-auto sm:top-1/2 sm:h-px sm:w-auto"
-      />
-      <span className="relative bg-canvas py-3 text-xs font-medium tracking-[0.08em] text-ink-muted uppercase [writing-mode:vertical-rl] sm:px-3 sm:py-0 sm:[writing-mode:horizontal-tb]">
-        Corridor
-      </span>
-    </div>
   );
 }
 

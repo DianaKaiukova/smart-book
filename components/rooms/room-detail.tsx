@@ -1,12 +1,13 @@
 "use client";
 
-import { CalendarPlus, Ghost, LogIn, Users, X, Zap } from "lucide-react";
+import { CalendarPlus, Clock, Ghost, LogIn, Users, X, Zap } from "lucide-react";
 import { useMemo, useState, useTransition } from "react";
 
 import { useToast } from "@/components/layout/toaster";
-import { DayTimeline, type BusySlot } from "@/components/rooms/day-timeline";
+import { DAY_END_HOUR, DAY_START_HOUR, DayTimeline, type BusySlot } from "@/components/rooms/day-timeline";
 import { NoiseBadge, StatusBadge } from "@/components/rooms/status-badge";
 import { SegmentedToggleButton } from "@/components/ui/segmented-toggle-button";
+import { SelectMenu, type SelectOption } from "@/components/ui/select-menu";
 import { bookNowAction, bookSlotAction, cancelBookingAction, checkInAction } from "@/lib/booking/actions";
 import { BOOKING_RULES, NOW_DURATION_OPTIONS } from "@/lib/booking/rules";
 import { formatDayRange, formatRange, formatTime, fromLocalInputs, toDateInputValue } from "@/lib/format";
@@ -16,6 +17,11 @@ import { usePolling } from "@/lib/use-polling";
 
 const DURATION_LABELS = NOW_DURATION_OPTIONS.map((m) => (m < 60 ? `${m}m` : `${m / 60}h`.replace(".5h", "h30")));
 const SLOT_DURATIONS = [30, 60, 90, 120, 180, 240].filter((m) => m <= BOOKING_RULES.maxSlotMinutes);
+const DURATION_OPTIONS: SelectOption<number>[] = SLOT_DURATIONS.map((m) => ({
+  value: m,
+  label: m < 60 ? `${m} min` : `${m / 60} h`,
+}));
+const START_STEP_MINUTES = 15;
 
 export function RoomDetail({
   room,
@@ -65,6 +71,16 @@ export function RoomDetail({
     const start = fromLocalInputs(day, startTime);
     return { start, end: new Date(start.getTime() + slotMinutes * 60_000) };
   }, [day, startTime, slotMinutes]);
+
+  // 15-minute start times within the schedule window; past or already-booked starts are disabled.
+  const startOptions: SelectOption<string>[] = [];
+  for (let minutes = DAY_START_HOUR * 60; minutes < DAY_END_HOUR * 60; minutes += START_STEP_MINUTES) {
+    const time = `${String(Math.floor(minutes / 60)).padStart(2, "0")}:${String(minutes % 60).padStart(2, "0")}`;
+    const start = fromLocalInputs(day, time);
+    const end = new Date(start.getTime() + START_STEP_MINUTES * 60_000);
+    const taken = busy.some((b) => new Date(b.start) < end && new Date(b.end) > start);
+    startOptions.push({ value: time, label: time, disabled: start.getTime() < nowMs || taken });
+  }
 
   return (
     <div className="grid gap-4 lg:grid-cols-[1fr_380px]">
@@ -149,7 +165,7 @@ export function RoomDetail({
                 setDay(e.target.value || minDay);
                 setStartTime(null);
               }}
-              className="rounded-lg border border-line px-2 py-1 text-sm"
+              className="h-9 rounded-lg border border-line bg-surface px-3 text-sm text-ink tabular-nums transition-colors hover:border-ink-muted focus:border-accent focus:ring-2 focus:ring-accent/15 focus:outline-none"
             />
           </div>
           <DayTimeline day={day} now={nowMs} busy={busy} selected={slotRange} onSelect={setStartTime} />
@@ -196,30 +212,26 @@ export function RoomDetail({
             <CalendarPlus className="size-4 text-accent" aria-hidden /> Book a slot
           </h2>
           <div className="grid grid-cols-2 gap-2 text-sm">
-            <label className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1">
               <span className="text-xs text-ink-muted">Start</span>
-              <input
-                type="time"
-                step={900}
-                value={startTime ?? ""}
-                onChange={(e) => setStartTime(e.target.value || null)}
-                className="rounded-lg border border-line px-2 py-1.5"
+              <SelectMenu
+                ariaLabel="Start time"
+                value={startTime}
+                options={startOptions}
+                onChange={setStartTime}
+                placeholder="--:--"
+                icon={Clock}
               />
-            </label>
-            <label className="flex flex-col gap-1">
+            </div>
+            <div className="flex flex-col gap-1">
               <span className="text-xs text-ink-muted">Duration</span>
-              <select
+              <SelectMenu
+                ariaLabel="Duration"
                 value={slotMinutes}
-                onChange={(e) => setSlotMinutes(Number(e.target.value))}
-                className="rounded-lg border border-line px-2 py-1.5"
-              >
-                {SLOT_DURATIONS.map((m) => (
-                  <option key={m} value={m}>
-                    {m < 60 ? `${m} min` : `${m / 60} h`}
-                  </option>
-                ))}
-              </select>
-            </label>
+                options={DURATION_OPTIONS}
+                onChange={setSlotMinutes}
+              />
+            </div>
           </div>
           <p className="text-xs text-ink-muted">
             {slotRange ? formatDayRange(slotRange.start.toISOString(), slotRange.end.toISOString()) : "Pick a start time or tap a free cell in the schedule."}

@@ -5,8 +5,8 @@ import { formatTime, fromLocalInputs } from "@/lib/format";
 
 export type BusySlot = { id: string; start: string; end: string; isMine: boolean };
 
-const DAY_START_HOUR = 7;
-const DAY_END_HOUR = 22;
+export const DAY_START_HOUR = 7;
+export const DAY_END_HOUR = 22;
 const CELL_MINUTES = 30;
 
 /** Day calendar: 30-minute cells, busy/mine/past states; tap a free cell to pick a start time. */

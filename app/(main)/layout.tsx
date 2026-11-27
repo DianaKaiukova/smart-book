@@ -11,20 +11,21 @@ import { getSessionUser } from "@/lib/auth/session";
 export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <LiveStatusProvider>
-      <header className="sticky top-0 z-30 border-b border-line bg-white/85 backdrop-blur">
-        <div className="mx-auto flex h-14 w-full max-w-6xl items-center gap-6 px-4 sm:px-6">
-          <Link href="/" className="flex shrink-0 items-center gap-2 text-[15px] font-semibold tracking-[-0.01em] text-ink">
-            <span className="flex size-7 items-center justify-center rounded-lg bg-ink text-white">
-              <DoorOpen className="size-4" aria-hidden />
+      <header className="sticky top-0 z-30 bg-accent text-white shadow-(--shadow-md)">
+        {/* Mobile: logo + live + user on the first row, nav scrolls on the second. Desktop: logo | centred nav | live + user. */}
+        <div className="flex w-full flex-wrap items-center gap-x-4 gap-y-1.5 px-4 pt-2.5 pb-2 sm:px-6 md:grid md:h-14 md:grid-cols-[1fr_auto_1fr] md:py-0 lg:px-8">
+          <Link href="/" className="flex shrink-0 items-center gap-2 text-base font-semibold tracking-[-0.01em] md:justify-self-start">
+            <span className="flex size-8 items-center justify-center rounded-lg bg-white text-accent">
+              <DoorOpen className="size-[18px]" aria-hidden />
             </span>
-            <span className="hidden sm:inline">SmartBook</span>
+            SmartBook
           </Link>
-          <Suspense fallback={<div className="flex-1" />}>
+          <Suspense fallback={null}>
             <SessionNav />
           </Suspense>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 sm:px-6">{children}</main>
+      <main className="w-full flex-1 px-4 py-5 sm:px-6 sm:py-6 lg:px-8">{children}</main>
       <Suspense fallback={null}>
         <AssistantDock />
       </Suspense>
@@ -36,8 +37,8 @@ async function SessionNav(): Promise<ReactNode> {
   const user = await getSessionUser();
   if (!user) {
     return (
-      <div className="flex flex-1 justify-end">
-        <Link href="/login" className="text-sm font-medium text-accent">
+      <div className="ml-auto md:col-start-3 md:justify-self-end">
+        <Link href="/login" className="text-sm font-medium text-white">
           Sign in
         </Link>
       </div>
@@ -46,12 +47,12 @@ async function SessionNav(): Promise<ReactNode> {
   return (
     <>
       <NavLinks isAdmin={user.role === "ADMIN"} />
-      <LiveIndicator />
-      <div className="flex shrink-0 items-center gap-2">
-        <span className="hidden text-[13px] text-ink-secondary md:inline">
+      <div className="ml-auto flex shrink-0 items-center gap-3 md:ml-0 md:justify-self-end">
+        <LiveIndicator />
+        <span className="hidden text-sm text-white/85 lg:inline">
           {user.name}
           {user.role === "ADMIN" ? (
-            <span className="ml-1.5 rounded border border-line bg-canvas px-1.5 py-0.5 text-[10px] font-semibold text-ink-secondary uppercase">
+            <span className="ml-1.5 rounded border border-white/30 px-1.5 py-0.5 text-[10px] font-semibold uppercase">
               admin
             </span>
           ) : null}
@@ -60,9 +61,9 @@ async function SessionNav(): Promise<ReactNode> {
           <button
             type="submit"
             title="Sign out"
-            className="flex size-8 items-center justify-center rounded-lg text-ink-muted hover:bg-subtle hover:text-ink"
+            className="flex size-9 items-center justify-center rounded-lg text-white/80 hover:bg-white/10 hover:text-white"
           >
-            <LogOut className="size-4" aria-hidden />
+            <LogOut className="size-[18px]" aria-hidden />
             <span className="sr-only">Sign out</span>
           </button>
         </form>

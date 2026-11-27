@@ -31,15 +31,15 @@ export function LiveIndicator() {
 
   if (status.error) {
     return (
-      <span className="flex shrink-0 items-center gap-2 text-xs text-ink-secondary">
-        <span aria-hidden className="size-2 rounded-full bg-status-occ" />
+      <span className="flex shrink-0 items-center gap-2 rounded-full bg-white/10 px-2.5 py-1 text-[13px] text-white/90">
+        <span aria-hidden className="size-2 rounded-full bg-warning" />
         Reconnecting…
       </span>
     );
   }
   return (
-    <span className="flex shrink-0 items-center gap-2 text-xs text-ink-secondary tabular-nums" aria-live="off">
-      <span aria-hidden className="live-dot" />
+    <span className="flex shrink-0 items-center gap-2 rounded-full bg-white/10 px-2.5 py-1 text-[13px] font-medium text-white/90 tabular-nums" aria-live="off">
+      <span aria-hidden className="live-dot bg-success-soft" />
       Live · {formatTime(status.now)}
     </span>
   );

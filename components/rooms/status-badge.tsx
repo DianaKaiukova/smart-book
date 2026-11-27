@@ -10,7 +10,8 @@ export function StatusBadge({ state, long = false, className }: { state: RoomSta
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border border-line bg-canvas px-2 py-0.5 text-xs font-medium text-ink",
+        "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[13px] font-medium",
+        meta.pill,
         className,
       )}
     >

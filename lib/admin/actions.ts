@@ -17,7 +17,7 @@ async function admin(): Promise<SessionUser | null> {
 }
 
 const FORBIDDEN = "Admins only.";
-const roomIdSchema = z.string().trim().regex(/^[A-Za-z]+\.\d+\.\d+$/, 'Room id must look like "Z.1.09".').max(32);
+const roomIdSchema = z.string().trim().regex(/^[A-Za-z]+\.\d+\.\d+[a-z]?$/, 'Room id must look like "N.1.42" or "N.0.14a".').max(32);
 
 export async function reclaimGhostAction(roomId: unknown): Promise<ActionResult<{ bookingId: string; holderName: string }>> {
   const user = await admin();

@@ -35,9 +35,9 @@ export const getRoom = cache(async (roomId: string): Promise<RoomView | null> =>
   return row ? toRoomView(row) : null;
 });
 
-/** "Z.1.09" → { floor: 1, number: 9 } for proximity ranking. */
+/** "N.1.42" (or "N.0.14a") → { floor: 1, number: 42 } for proximity ranking. */
 export function roomPosition(roomId: string): { building: string; floor: number; number: number } | null {
-  const match = /^([A-Za-z]+)\.(\d+)\.(\d+)$/.exec(roomId);
+  const match = /^([A-Za-z]+)\.(\d+)\.(\d+)[a-z]?$/.exec(roomId);
   if (!match) return null;
   return { building: match[1], floor: Number(match[2]), number: Number(match[3]) };
 }

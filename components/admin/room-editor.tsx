@@ -48,7 +48,7 @@ function RoomForm({ mode, room }: { mode: "create" | "edit"; room?: RoomView }) 
             <span className="py-1.5 font-mono text-sm text-ink">{room!.id}</span>
           </>
         ) : (
-          <input name="id" placeholder="Z.1.13" required className={`${input} font-mono`} />
+          <input name="id" placeholder="N.1.42" required className={`${input} font-mono`} />
         )}
       </label>
       <label className="flex flex-col gap-1 text-xs text-ink-muted">
@@ -57,7 +57,7 @@ function RoomForm({ mode, room }: { mode: "create" | "edit"; room?: RoomView }) 
       </label>
       <label className="flex flex-col gap-1 text-xs text-ink-muted">
         Floor
-        <input name="floor" defaultValue={room?.floor ?? "Z-1"} required className={input} />
+        <input name="floor" defaultValue={room?.floor ?? "Level 0"} required className={input} />
       </label>
       <label className="flex flex-col gap-1 text-xs text-ink-muted">
         Capacity

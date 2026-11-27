@@ -11,8 +11,8 @@ import { cn } from "@/lib/cn";
 const STORAGE_KEY = "smartbook.assistant.history";
 const SUGGESTIONS = [
   "Find me a quiet room for 2 people now",
-  "Is there anything free near Z.1.09?",
-  "Why is Z.1.09 marked as ghost?",
+  "Is there anything free near N.1.42?",
+  "Why is N.0.15 marked as ghost?",
   "What are my bookings?",
 ];
 

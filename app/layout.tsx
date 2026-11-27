@@ -11,7 +11,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: { default: "SmartBook", template: "%s · SmartBook" },
-  description: "Book study rooms in Building Z — with live occupancy so ghost bookings get freed up.",
+  description: "Book rooms in the AAU Klagenfurt Nordtrakt — with live occupancy so ghost bookings get freed up.",
 };
 
 export const viewport: Viewport = { themeColor: "#1B263B" };

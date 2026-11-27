@@ -97,7 +97,7 @@ function fn(name: string, description: string, properties: Record<string, unknow
   };
 }
 
-const ROOM_ID = { type: "string", description: 'Room id like "Z.1.09"' };
+const ROOM_ID = { type: "string", description: 'Room id like "N.1.42"' };
 const START = {
   type: "string",
   description: "ISO 8601 start with the user's UTC offset, e.g. 2026-05-04T14:00:00+02:00. Omit for 'now'.",
@@ -106,7 +106,7 @@ const START = {
 export function toolDefinitions(role: SessionUser["role"]): ChatCompletionFunctionTool[] {
   const tools = [
     fn("get_floor_status", "Live status of every room (free / booked / in use / occupied / ghost booking, noise).", {
-      floor: { type: "string", description: 'Optional floor filter, e.g. "Z-1"' },
+      floor: { type: "string", description: 'Optional floor filter, e.g. "Level 1"' },
     }),
     fn(
       "find_free_room",

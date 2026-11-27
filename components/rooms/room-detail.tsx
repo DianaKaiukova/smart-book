@@ -71,7 +71,7 @@ export function RoomDetail({
       <section className="flex flex-col gap-4 rounded-2xl border border-line bg-white p-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="font-mono text-sm text-ink-muted">{room.id} · Floor {room.floor}</p>
+            <p className="font-mono text-sm text-ink-muted">{room.id} · {room.floor}</p>
             <h1 className="text-2xl font-semibold tracking-tight text-ink">{room.name}</h1>
             <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-ink-secondary">
               <span className="flex items-center gap-1">

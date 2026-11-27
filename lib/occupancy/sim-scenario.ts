@@ -8,9 +8,9 @@ import { db } from "@/lib/db";
 export const DEMO_HOLDER_EMAIL = "holder@smartbook.dev";
 
 const DEMO_BOOKINGS = [
-  { roomId: "Z.1.03", startOffsetMin: -20, durationMin: 90 },
-  { roomId: "Z.1.09", startOffsetMin: -1, durationMin: 60 },
-  { roomId: "Z.1.10", startOffsetMin: 0, durationMin: 60 },
+  { roomId: "N.0.27", startOffsetMin: -20, durationMin: 90 },
+  { roomId: "N.0.15", startOffsetMin: -1, durationMin: 60 },
+  { roomId: "N.0.18", startOffsetMin: 0, durationMin: 60 },
 ] as const;
 
 export async function ensureDemoBookings(now = new Date()): Promise<number> {

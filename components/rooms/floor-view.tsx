@@ -62,7 +62,7 @@ export function FloorView({
                     : "text-ink-secondary hover:text-ink",
                 )}
               >
-                Floor {f}
+                {f}
               </button>
             ))}
           </div>
@@ -76,7 +76,7 @@ export function FloorView({
         {rows.map((row, rowIndex) => (
           <div key={`${floor}-${rowIndex}`}>
             {rowIndex === 1 ? <CorridorDivider /> : null}
-            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6">
+            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6 2xl:grid-cols-8">
               {row.map((room, i) => (
                 <RoomCard
                   key={room.id}

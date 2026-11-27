@@ -39,9 +39,9 @@ model User {
 }
 
 model Room {
-  id        String    @id // e.g. "Z.1.09"
+  id        String    @id // e.g. "N.1.42"
   name      String
-  floor     String // e.g. "Z-1"
+  floor     String // e.g. "Level 1"
   capacity  Int
   amenities String // JSON array string, e.g. '["whiteboard","monitor"]'
   bookings  Booking[]

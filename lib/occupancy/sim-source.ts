@@ -7,25 +7,28 @@ type ScriptedPresence = (secondsSinceStart: number) => boolean;
 
 /** The scripted demo scenario (§10). Rooms not listed stay empty unless toggled. */
 export const DEMO_SCRIPT: Record<string, { presence: ScriptedPresence; note: string }> = {
-  "Z.1.03": { presence: () => true, note: "Booked and in use" },
-  "Z.1.09": { presence: () => false, note: "Booked, holder never shows → ghost booking" },
-  "Z.1.10": { presence: (t) => t >= 25, note: "Booked, holder walks in at +25s → auto check-in" },
-  "Z.1.11": { presence: (t) => t >= 10, note: "Unbooked, someone walks in at +10s → squatter" },
+  "N.0.27": { presence: () => true, note: "Booked and in use" },
+  "N.0.15": { presence: () => false, note: "Booked, holder never shows → ghost booking" },
+  "N.0.18": { presence: (t) => t >= 25, note: "Booked, holder walks in at +25s → auto check-in" },
+  "N.0.44": { presence: (t) => t >= 10, note: "Unbooked, someone walks in at +10s → squatter" },
 };
 
 const NOISE_BASELINE_DB: Record<string, number> = {
-  "Z.1.01": 48,
-  "Z.1.02": 55,
-  "Z.1.04": 68,
-  "Z.1.05": 40,
-  "Z.1.06": 33,
-  "Z.1.07": 36,
-  "Z.1.08": 58,
-  "Z.1.12": 44,
-  "Z.2.01": 38,
-  "Z.2.02": 62,
-  "Z.2.03": 31,
-  "Z.2.04": 47,
+  "N.0.07": 48,
+  "N.0.14a": 38,
+  "N.0.42": 55,
+  "N.0.43": 66,
+  "N.0.45": 58,
+  "N.0.54": 33,
+  "N.0.56": 40,
+  "N.1.04": 52,
+  "N.1.12": 45,
+  "N.1.43": 62,
+  "N.1.45": 31,
+  "N.1.71": 47,
+  "N.2.08": 36,
+  "N.2.35": 60,
+  "N.2.38": 39,
 };
 const DEFAULT_BASELINE_DB = 42;
 const OCCUPIED_NOISE_BOOST_DB = 9;

@@ -21,7 +21,7 @@ export class AssistantUnavailableError extends Error {}
 
 function systemPrompt(ctx: ToolContext): string {
   return [
-    `You are SmartBookBot, the SmartBook assistant for study rooms in Building Z (rooms are named like Z.1.09 = building Z, floor 1, room 09).`,
+    `You are SmartBookBot, the SmartBook assistant for rooms in the Nordtrakt (building N) of the University of Klagenfurt (AAU). Rooms are named like N.1.42 = building N, level 1, room 42; a trailing letter (N.0.14a) marks a side room. Floors are "Level 0" (ground floor), "Level 1" and "Level 2".`,
     `The user is ${ctx.user.name} (${ctx.user.role === "ADMIN" ? "facilities admin" : "student member"}).`,
     `Current time: ${localLabel(ctx.now, ctx.timeZone)} (${isoWithOffset(ctx.now, ctx.timeZone)}, timezone ${ctx.timeZone}).`,
     `Rules: book-now up to ${BOOKING_RULES.maxNowMinutes} min, future slots ${BOOKING_RULES.minMinutes}–${BOOKING_RULES.maxSlotMinutes} min, at most ${BOOKING_RULES.maxDaysAhead} days ahead.`,

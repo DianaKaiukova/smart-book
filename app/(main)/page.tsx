@@ -13,9 +13,9 @@ export default function HomePage() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-[28px]">Building Z</h1>
+        <h1 className="text-2xl font-semibold tracking-[-0.02em] text-ink sm:text-[28px]">Nordtrakt</h1>
         <p className="text-[15px] leading-6 text-ink-secondary">
-          Live room status. <span className="font-semibold text-warning">Ghost</span> rooms are booked but nobody is
+          Building N · University of Klagenfurt. <span className="font-semibold text-warning">Ghost</span> rooms are booked but nobody is
           there.
         </p>
       </div>
@@ -40,7 +40,7 @@ async function LiveFloor() {
 
 function FloorSkeleton() {
   return (
-    <div className="grid animate-pulse grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6">
+    <div className="grid animate-pulse grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6 2xl:grid-cols-8">
       {Array.from({ length: 12 }, (_, i) => (
         <div key={i} className="h-36 rounded-(--radius) border border-line bg-surface" />
       ))}

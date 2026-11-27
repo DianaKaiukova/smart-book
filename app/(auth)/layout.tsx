@@ -10,7 +10,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             <DoorOpen className="size-6" aria-hidden />
           </span>
           <h1 className="text-2xl font-semibold tracking-tight text-ink">SmartBook</h1>
-          <p className="text-sm text-ink-muted">Study rooms in Building Z — booked rooms that sit empty get freed up.</p>
+          <p className="text-sm text-ink-muted">Rooms in the AAU Nordtrakt — booked rooms that sit empty get freed up.</p>
         </div>
         <div className="rounded-2xl border border-line bg-white p-6 shadow-sm">{children}</div>
       </div>

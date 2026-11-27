@@ -1,0 +1,65 @@
+// SQLite for local dev. Keep the schema DB-agnostic so it can move to Postgres later
+// (no SQLite-only types; amenities is a JSON string for that reason).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum Role {
+  MEMBER
+  ADMIN
+}
+
+enum BookingKind {
+  NOW
+  SCHEDULED
+}
+
+enum BookingStatus {
+  RESERVED
+  CHECKED_IN
+  COMPLETED
+  CANCELLED
+  GHOST_RELEASED
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  passwordHash String
+  role         Role      @default(MEMBER)
+  bookings     Booking[]
+  createdAt    DateTime  @default(now())
+}
+
+model Room {
+  id        String    @id // e.g. "Z.1.09"
+  name      String
+  floor     String // e.g. "Z-1"
+  capacity  Int
+  amenities String // JSON array string, e.g. '["whiteboard","monitor"]'
+  bookings  Booking[]
+}
+
+model Booking {
+  id          String        @id @default(cuid())
+  room        Room          @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  start       DateTime
+  end         DateTime
+  kind        BookingKind
+  status      BookingStatus @default(RESERVED)
+  checkedInAt DateTime?
+  createdAt   DateTime      @default(now())
+
+  @@index([roomId, start, end])
+  @@index([userId, start])
+}

@@ -241,12 +241,12 @@ export async function listMyBookings(userId: string, now = new Date()) {
 }
 
 /** Busy intervals for a room's calendar (no holder identities). */
-export async function listRoomBusySlots(roomId: string, from: Date, to: Date, viewerId: string) {
+export async function listRoomBusySlots(roomId: string, from: Date, to: Date | null, viewerId: string) {
   const rows = await db.booking.findMany({
     where: {
       roomId,
       status: { in: ["RESERVED", "CHECKED_IN", "COMPLETED"] },
-      start: { lt: to },
+      ...(to ? { start: { lt: to } } : {}),
       end: { gt: from },
     },
     select: { id: true, start: true, end: true, userId: true },

@@ -53,7 +53,6 @@ export function RoomDetail({
   const maxNowFits = nextStart ? Math.floor((nextStart.getTime() - nowMs) / 60_000) : Infinity;
 
   const minDay = toDateInputValue(new Date(nowMs));
-  const maxDay = toDateInputValue(new Date(nowMs + BOOKING_RULES.maxDaysAhead * 24 * 60 * 60 * 1000));
 
   function run<T>(action: () => Promise<{ ok: true; data: T; message?: string } | { ok: false; error: string }>, success: string) {
     startTransition(async () => {
@@ -161,7 +160,6 @@ export function RoomDetail({
               ariaLabel="Schedule day"
               value={day}
               min={minDay}
-              max={maxDay}
               onChange={(value) => {
                 setDay(value);
                 setStartTime(null);

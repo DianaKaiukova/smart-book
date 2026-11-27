@@ -17,7 +17,7 @@ export function DatePicker({
 }: {
   value: string;
   min: string;
-  max: string;
+  max?: string;
   onChange: (value: string) => void;
   ariaLabel?: string;
 }) {
@@ -43,7 +43,7 @@ export function DatePicker({
 
   const today = min;
   const canPrev = month > monthOf(min);
-  const canNext = month < monthOf(max);
+  const canNext = !max || month < monthOf(max);
 
   return (
     <div ref={rootRef} className="relative">
@@ -92,7 +92,7 @@ export function DatePicker({
                 <button
                   key={day}
                   type="button"
-                  disabled={day < min || day > max}
+                  disabled={day < min || (max !== undefined && day > max)}
                   aria-pressed={day === value}
                   aria-label={formatLabel(day)}
                   onClick={() => {

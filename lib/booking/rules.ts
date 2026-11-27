@@ -3,7 +3,6 @@ export const BOOKING_RULES = {
   maxNowMinutes: 120,
   minMinutes: 15,
   maxSlotMinutes: 240,
-  maxDaysAhead: 14,
   checkInEarlyMinutes: 15,
   checkInLateMinutes: 30,
   // Tolerates clock skew / form latency when a slot starts "now".

@@ -101,9 +101,9 @@ describe("validateSlot", () => {
     expect(validateSlot({ start: at("10:00"), end: at("15:00") }, now).ok).toBe(false);
   });
 
-  it("rejects slots beyond 14 days ahead", () => {
-    const far = { start: new Date("2026-03-20T10:00:00Z"), end: new Date("2026-03-20T11:00:00Z") };
-    expect(validateSlot(far, now).ok).toBe(false);
+  it("accepts slots far in the future", () => {
+    const far = { start: new Date("2027-03-20T10:00:00Z"), end: new Date("2027-03-20T11:00:00Z") };
+    expect(validateSlot(far, now)).toEqual({ ok: true });
   });
 });
 

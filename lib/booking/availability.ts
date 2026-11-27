@@ -104,13 +104,6 @@ export function validateSlot(range: TimeRange, now: Date): RuleResult {
   if (range.start.getTime() < earliest) {
     return { ok: false, error: "That time is in the past." };
   }
-  const latest = now.getTime() + BOOKING_RULES.maxDaysAhead * 24 * 60 * MINUTE_MS;
-  if (range.start.getTime() > latest) {
-    return {
-      ok: false,
-      error: `You can book at most ${BOOKING_RULES.maxDaysAhead} days ahead.`,
-    };
-  }
   return { ok: true };
 }
 

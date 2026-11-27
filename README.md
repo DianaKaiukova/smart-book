@@ -30,11 +30,9 @@ npm run dev                 # http://localhost:3000
 
 ## Demo accounts
 
-| Role | Email | Password |
-| --- | --- | --- |
-| Admin | admin@smartbook.dev | admin1234 |
-| Member | member@smartbook.dev | member1234 |
-| Member (holds demo bookings) | holder@smartbook.dev | holder1234 |
+`npm run db:seed` creates an admin and a couple of member accounts. Their
+credentials are defined in `prisma/seed.ts` — change them before any shared or
+public deployment. You can also create your own account from the sign-up page.
 
 ## Demo script (simulator)
 

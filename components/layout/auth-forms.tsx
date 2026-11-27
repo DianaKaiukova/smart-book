@@ -8,11 +8,6 @@ import { SpinLoader } from "@/components/ui/spin-loader";
 import { TextFieldInput } from "@/components/ui/text-field-input";
 import { loginAction, signupAction, type AuthFormState } from "@/lib/auth/actions";
 
-const DEMO_ACCOUNTS = [
-  { label: "Member", email: "member@smartbook.dev", password: "member1234" },
-  { label: "Admin", email: "admin@smartbook.dev", password: "admin1234" },
-];
-
 export function LoginForm({ redirectTo }: { redirectTo: string }) {
   const [state, action, pending] = useActionState<AuthFormState, FormData>(loginAction, undefined);
 
@@ -42,14 +37,6 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
           Create an account
         </Link>
       </p>
-      <div className="rounded-lg bg-canvas p-3 text-xs text-ink-muted">
-        <p className="mb-1 font-medium text-ink-secondary">Demo accounts</p>
-        {DEMO_ACCOUNTS.map((a) => (
-          <p key={a.email} className="font-mono">
-            {a.label}: {a.email} / {a.password}
-          </p>
-        ))}
-      </div>
     </form>
   );
 }

@@ -2,15 +2,12 @@
 
 import { Users } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState } from "react";
 
 import { usePublishLiveStatus } from "@/components/layout/live-status";
-import { useToast } from "@/components/layout/toaster";
 import { NoiseBadge } from "@/components/rooms/status-badge";
 import { STATE_META } from "@/components/rooms/status-meta";
 import { cn } from "@/lib/cn";
-import { bookNowAction } from "@/lib/booking/actions";
-import { BOOKING_RULES } from "@/lib/booking/rules";
 import { formatRange, formatTime } from "@/lib/format";
 import type { PublicRoomStatus, StateResponse } from "@/lib/reconciliation/room-status-types";
 import type { RoomView } from "@/lib/rooms/rooms-types";
@@ -27,7 +24,7 @@ export function FloorView({
   initial: StateResponse;
   pollIntervalMs: number;
 }) {
-  const { data, error, refresh } = usePolling<StateResponse>("/api/state", pollIntervalMs, initial);
+  const { data, error } = usePolling<StateResponse>("/api/state", pollIntervalMs, initial);
   usePublishLiveStatus(data.now, Boolean(error));
 
   const floors = useMemo(() => [...new Set(rooms.map((r) => r.floor))], [rooms]);
@@ -86,7 +83,6 @@ export function FloorView({
                   room={room}
                   status={statusById.get(room.id)}
                   delayMs={(rowIndex * half + i) * STAGGER_MS}
-                  onBooked={refresh}
                 />
               ))}
             </div>
@@ -143,12 +139,10 @@ function RoomCard({
   room,
   status,
   delayMs,
-  onBooked,
 }: {
   room: RoomView;
   status?: PublicRoomStatus;
   delayMs: number;
-  onBooked: () => void;
 }) {
   const state = status?.state ?? "free";
   const booking = status?.activeBooking;
@@ -158,7 +152,7 @@ function RoomCard({
     <article data-state={state} className="room-card" style={{ animationDelay: `${delayMs}ms` }}>
       <div className={cn("flex flex-col gap-1", dimmed && "opacity-70")}>
         <div className="flex items-baseline justify-between gap-2">
-          {/* Stretched link: the whole card navigates, while the Grab button stays separately clickable. */}
+          {/* Stretched link: the whole card navigates to the room. */}
           <Link
             href={`/rooms/${encodeURIComponent(room.id)}`}
             className="text-sm font-semibold tracking-[-0.01em] text-ink tabular-nums outline-none after:absolute after:inset-0 after:rounded-(--radius) focus-visible:after:ring-2 focus-visible:after:ring-accent"
@@ -186,9 +180,7 @@ function RoomCard({
 
       <div className="mt-auto pt-4">
         <div className="flex flex-col gap-1 border-t border-line pt-3 text-[11px] leading-4 text-ink-muted tabular-nums">
-          {state === "ghost_booking" && !booking?.isMine ? (
-            <GrabButton roomId={room.id} onBooked={onBooked} />
-          ) : booking ? (
+          {booking ? (
             <span className="truncate">
               {booking.isMine ? "You" : booking.holderFirstName}: {formatRange(booking.start, booking.end)}
             </span>
@@ -208,33 +200,5 @@ function RoomCard({
         </div>
       </div>
     </article>
-  );
-}
-
-function GrabButton({ roomId, onBooked }: { roomId: string; onBooked: () => void }) {
-  const toast = useToast();
-  const [pending, startTransition] = useTransition();
-
-  function grab() {
-    startTransition(async () => {
-      const result = await bookNowAction({ roomId, minutes: BOOKING_RULES.defaultNowMinutes });
-      if (result.ok) {
-        toast.success(`${roomId} is yours for the next ${BOOKING_RULES.defaultNowMinutes} minutes.`);
-        onBooked();
-      } else {
-        toast.error(result.error);
-      }
-    });
-  }
-
-  return (
-    <button
-      type="button"
-      onClick={grab}
-      disabled={pending}
-      className="relative z-10 mb-1 self-start rounded-lg bg-accent px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-accent-hover focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:outline-none disabled:opacity-60"
-    >
-      {pending ? "Booking…" : "Grab it now"}
-    </button>
   );
 }

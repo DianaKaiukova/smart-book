@@ -4,6 +4,7 @@ import { Suspense, type ReactNode } from "react";
 
 import { AssistantDock } from "@/components/assistant/assistant-dock";
 import { LiveIndicator, LiveStatusProvider } from "@/components/layout/live-status";
+import { MobileNav } from "@/components/layout/mobile-nav";
 import { NavLinks } from "@/components/layout/nav-links";
 import { logoutAction } from "@/lib/auth/actions";
 import { getSessionUser } from "@/lib/auth/session";
@@ -12,8 +13,8 @@ export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <LiveStatusProvider>
       <header className="sticky top-0 z-30 bg-accent text-white shadow-(--shadow-md)">
-        {/* Mobile: logo + live + user on the first row, nav scrolls on the second. Desktop: logo | centred nav | live + user. */}
-        <div className="flex w-full flex-wrap items-center gap-x-4 gap-y-1.5 px-4 pt-2.5 pb-2 sm:px-6 md:grid md:h-14 md:grid-cols-[1fr_auto_1fr] md:py-0 lg:px-8">
+        {/* Mobile: menu button + logo | live + user (pages live in the sidebar). Desktop: logo | centred nav | live + user. */}
+        <div className="flex h-14 w-full items-center gap-x-3 px-4 sm:px-6 md:grid md:grid-cols-[1fr_auto_1fr] lg:px-8">
           <Link href="/" className="flex shrink-0 items-center gap-2 text-base font-semibold tracking-[-0.01em] md:justify-self-start">
             <span className="flex size-8 items-center justify-center rounded-lg bg-white text-accent">
               <DoorOpen className="size-[18px]" aria-hidden />
@@ -46,6 +47,7 @@ async function SessionNav(): Promise<ReactNode> {
   }
   return (
     <>
+      <MobileNav isAdmin={user.role === "ADMIN"} userName={user.name} />
       <NavLinks isAdmin={user.role === "ADMIN"} />
       <div className="ml-auto flex shrink-0 items-center gap-3 md:ml-0 md:justify-self-end">
         <LiveIndicator />

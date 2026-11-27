@@ -1,24 +1,35 @@
 "use client";
 
+import { Bot, CalendarCheck, LayoutGrid, Shield, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/cn";
 
-const LINKS = [
-  { href: "/", label: "Rooms" },
-  { href: "/bookings", label: "My bookings" },
-  { href: "/assistant", label: "SmartBookBot" },
+type NavLink = { href: string; label: string; icon: LucideIcon };
+
+const LINKS: NavLink[] = [
+  { href: "/", label: "Rooms", icon: LayoutGrid },
+  { href: "/bookings", label: "My bookings", icon: CalendarCheck },
+  { href: "/assistant", label: "SmartBookBot", icon: Bot },
 ];
 
+export function navLinksFor(isAdmin: boolean): NavLink[] {
+  return isAdmin ? [...LINKS, { href: "/admin", label: "Admin", icon: Shield }] : LINKS;
+}
+
+export function isActiveLink(href: string, pathname: string): boolean {
+  return href === "/" ? pathname === "/" || pathname.startsWith("/rooms") : pathname.startsWith(href);
+}
+
+/** Desktop top-bar navigation; mobile uses the sidebar in MobileNav. */
 export function NavLinks({ isAdmin }: { isAdmin: boolean }) {
   const pathname = usePathname();
-  const links = isAdmin ? [...LINKS, { href: "/admin", label: "Admin" }] : LINKS;
 
   return (
-    <nav className="order-last -mx-1 flex w-full min-w-0 items-center gap-1 overflow-x-auto md:order-none md:w-auto md:justify-center">
-      {links.map((link) => {
-        const active = link.href === "/" ? pathname === "/" || pathname.startsWith("/rooms") : pathname.startsWith(link.href);
+    <nav className="hidden items-center justify-center gap-1 md:flex">
+      {navLinksFor(isAdmin).map((link) => {
+        const active = isActiveLink(link.href, pathname);
         return (
           <Link
             key={link.href}

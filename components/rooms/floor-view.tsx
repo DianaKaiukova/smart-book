@@ -72,22 +72,27 @@ export function FloorView({
         <FreeNowSwitch checked={freeOnly} onChange={setFreeOnly} />
       </div>
 
-      <div className="flex flex-col">
-        {rows.map((row, rowIndex) => (
-          <div key={`${floor}-${rowIndex}`}>
-            {rowIndex === 1 ? <CorridorDivider /> : null}
-            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6 2xl:grid-cols-8">
-              {row.map((room, i) => (
-                <RoomCard
-                  key={room.id}
-                  room={room}
-                  status={statusById.get(room.id)}
-                  delayMs={(rowIndex * half + i) * STAGGER_MS}
-                />
-              ))}
-            </div>
-          </div>
-        ))}
+      {/* Mobile: two walls side by side with a vertical corridor; sm+: walls stacked with a horizontal corridor. */}
+      <div className={cn("flex flex-col", rows.length === 2 && "max-sm:grid max-sm:grid-cols-[1fr_auto_1fr]")}>
+        {rows.map((row, rowIndex) => [
+          rowIndex === 1 ? <CorridorDivider key={`${floor}-corridor`} /> : null,
+          <div
+            key={`${floor}-${rowIndex}`}
+            className={cn(
+              "grid content-start gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-6 2xl:grid-cols-8",
+              rows.length === 2 ? "grid-cols-1" : "grid-cols-2",
+            )}
+          >
+            {row.map((room, i) => (
+              <RoomCard
+                key={room.id}
+                room={room}
+                status={statusById.get(room.id)}
+                delayMs={(rowIndex * half + i) * STAGGER_MS}
+              />
+            ))}
+          </div>,
+        ])}
         {visible.length === 0 ? (
           <p className="py-12 text-center text-[15px] text-ink-secondary">No free rooms on this floor right now.</p>
         ) : null}
@@ -126,9 +131,12 @@ function FreeNowSwitch({ checked, onChange }: { checked: boolean; onChange: (val
 
 function CorridorDivider() {
   return (
-    <div className="relative my-4 flex items-center justify-center" role="separator">
-      <span aria-hidden className="absolute inset-x-0 top-1/2 h-px bg-line" />
-      <span className="relative bg-canvas px-3 text-xs font-medium tracking-[0.08em] text-ink-muted uppercase">
+    <div className="relative mx-2 flex items-center justify-center sm:mx-0 sm:my-4" role="separator">
+      <span
+        aria-hidden
+        className="absolute inset-y-0 left-1/2 w-px bg-line sm:inset-x-0 sm:inset-y-auto sm:top-1/2 sm:h-px sm:w-auto"
+      />
+      <span className="relative bg-canvas py-3 text-xs font-medium tracking-[0.08em] text-ink-muted uppercase [writing-mode:vertical-rl] sm:px-3 sm:py-0 sm:[writing-mode:horizontal-tb]">
         Corridor
       </span>
     </div>

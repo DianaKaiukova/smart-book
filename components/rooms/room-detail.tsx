@@ -6,6 +6,7 @@ import { useMemo, useState, useTransition } from "react";
 import { useToast } from "@/components/layout/toaster";
 import { DAY_END_HOUR, DAY_START_HOUR, DayTimeline, type BusySlot } from "@/components/rooms/day-timeline";
 import { NoiseBadge, StatusBadge } from "@/components/rooms/status-badge";
+import { DatePicker } from "@/components/ui/date-picker";
 import { SegmentedToggleButton } from "@/components/ui/segmented-toggle-button";
 import { SelectMenu, type SelectOption } from "@/components/ui/select-menu";
 import { bookNowAction, bookSlotAction, cancelBookingAction, checkInAction } from "@/lib/booking/actions";
@@ -156,16 +157,15 @@ export function RoomDetail({
         <div className="flex flex-col gap-2">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-sm font-semibold text-ink">Schedule</h2>
-            <input
-              type="date"
+            <DatePicker
+              ariaLabel="Schedule day"
               value={day}
               min={minDay}
               max={maxDay}
-              onChange={(e) => {
-                setDay(e.target.value || minDay);
+              onChange={(value) => {
+                setDay(value);
                 setStartTime(null);
               }}
-              className="h-9 rounded-lg border border-line bg-surface px-3 text-sm text-ink tabular-nums transition-colors hover:border-ink-muted focus:border-accent focus:ring-2 focus:ring-accent/15 focus:outline-none"
             />
           </div>
           <DayTimeline day={day} now={nowMs} busy={busy} selected={slotRange} onSelect={setStartTime} />

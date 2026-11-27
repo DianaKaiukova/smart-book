@@ -13,7 +13,7 @@ export const STATE_META: Record<RoomState, { label: string; short: string; dot: 
   ghost_booking: {
     label: "Ghost booking · booked but empty",
     short: "Ghost",
-    dot: "bg-status-ghost",
+    dot: "bg-warning",
     pill: "bg-warning-soft text-warning",
     stripe: "border-t-status-ghost",
   },
@@ -28,14 +28,14 @@ export const STATE_META: Record<RoomState, { label: string; short: string; dot: 
     label: "Booked · in use",
     short: "In use",
     dot: "bg-status-inuse",
-    pill: "bg-danger-soft text-danger",
+    pill: "bg-accent-soft text-slate",
     stripe: "border-t-status-inuse",
   },
   occupied: {
     label: "Occupied · not booked",
     short: "Occupied",
     dot: "bg-status-occ",
-    pill: "bg-danger-soft text-danger",
+    pill: "bg-accent-soft text-accent",
     stripe: "border-t-status-occ",
   },
 };

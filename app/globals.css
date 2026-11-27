@@ -4,38 +4,41 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  /* SmartBook palette — the only colours used in the app. */
-  --color-canvas: #faf9f6;
-  --color-surface: #ffffff;
-  --color-line: #e7e3dc;
-  --color-subtle: #f1eee8;
-  --color-ink: #2b2823;
-  --color-ink-secondary: #57514a;
-  --color-ink-muted: #8c8579;
-  --color-accent: #2f5d50;
-  --color-accent-hover: #244a40;
-  --color-accent-soft: #e8f0ed;
-  --color-success: #3a7d44;
-  --color-success-soft: #e9f3ea;
-  --color-warning: #d97706;
-  --color-warning-soft: #fbefdf;
-  --color-danger: #b3413c;
-  --color-danger-soft: #f6e7e5;
+  /* SmartBook palette: #0D1B2A #1B263B #415A77 #778D7A #D4C4A8 #F4F1DE.
+     Extra shades below are tints/shades of those six, used where contrast needs it. */
+  --color-canvas: #f4f1de;
+  --color-surface: #fbfaf3;
+  --color-line: #e3d9c4;
+  --color-subtle: #ebe5cf;
+  --color-ink: #0d1b2a;
+  --color-ink-secondary: #415a77;
+  --color-ink-muted: #6f7f8f;
+  --color-accent: #1b263b;
+  --color-accent-hover: #0d1b2a;
+  --color-accent-soft: #dfe4ea;
+  --color-slate: #415a77;
+  --color-sand: #d4c4a8;
+  --color-success: #5e7561;
+  --color-success-soft: #e3e9df;
+  --color-warning: #8f744c;
+  --color-warning-soft: #efe6d4;
+  --color-danger: #9e4a3f;
+  --color-danger-soft: #f3e3dc;
 
-  /* Room status dots */
-  --color-status-free: var(--color-success);
-  --color-status-ghost: var(--color-warning);
+  /* Room status: free = sage, ghost = sand, booked = muted, in use = slate, occupied = navy */
+  --color-status-free: #778d7a;
+  --color-status-ghost: var(--color-sand);
   --color-status-busy: var(--color-ink-muted);
-  --color-status-inuse: var(--color-danger);
-  --color-status-occ: var(--color-danger);
+  --color-status-inuse: var(--color-slate);
+  --color-status-occ: var(--color-accent);
 }
 
 :root {
   color-scheme: light;
 
   --radius: 10px;
-  --shadow-sm: 0 1px 2px rgba(43, 40, 35, 0.05);
-  --shadow-md: 0 4px 12px rgba(43, 40, 35, 0.08);
+  --shadow-sm: 0 1px 2px rgba(13, 27, 42, 0.06);
+  --shadow-md: 0 4px 12px rgba(13, 27, 42, 0.1);
 }
 
 body {

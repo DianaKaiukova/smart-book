@@ -285,7 +285,7 @@ export type CalendarEvent = {
   roomName: string;
   start: string;
   end: string;
-  source: "class" | "meeting" | "booking";
+  source: "class" | "meeting" | "booking" | "study";
   mine: boolean;
 };
 
@@ -323,18 +323,27 @@ export async function listCalendarEvents(
       room: { select: { name: true } },
       series: { select: { title: true } },
       course: { select: { code: true, title: true } },
+      deadline: { select: { title: true } },
     },
   });
 
   return rows.map((r) => {
     const source: CalendarEvent["source"] =
-      r.kind === "CLASS" ? "class" : r.kind === "MEETING" ? "meeting" : "booking";
+      r.kind === "CLASS"
+        ? "class"
+        : r.kind === "MEETING"
+          ? "meeting"
+          : r.kind === "STUDY"
+            ? "study"
+            : "booking";
     const title =
       source === "class" && r.course
         ? `${r.course.code} · ${r.course.title}`
         : source === "meeting"
           ? (r.series?.title ?? "Study group")
-          : r.room.name;
+          : source === "study"
+            ? `Study: ${r.deadline?.title ?? "focus"}`
+            : r.room.name;
     return {
       id: r.id,
       title,

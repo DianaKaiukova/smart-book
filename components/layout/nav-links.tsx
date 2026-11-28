@@ -1,6 +1,15 @@
 "use client";
 
-import { Bot, CalendarCheck, CalendarDays, GraduationCap, LayoutGrid, Shield, type LucideIcon } from "lucide-react";
+import {
+  Bot,
+  CalendarCheck,
+  CalendarDays,
+  GraduationCap,
+  LayoutGrid,
+  Shield,
+  Sparkles,
+  type LucideIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -13,6 +22,7 @@ type NavLink = { href: string; label: string; icon: LucideIcon };
 const BASE: NavLink[] = [
   { href: "/", label: "Rooms", icon: LayoutGrid },
   { href: "/calendar", label: "Calendar", icon: CalendarDays },
+  { href: "/planner", label: "Planner", icon: Sparkles },
   { href: "/bookings", label: "My bookings", icon: CalendarCheck },
   { href: "/assistant", label: "SmartBookBot", icon: Bot },
 ];

@@ -13,7 +13,7 @@ export type CalendarEvent = {
   roomName: string;
   start: string;
   end: string;
-  source: "class" | "meeting" | "booking";
+  source: "class" | "meeting" | "booking" | "study";
   mine: boolean;
 };
 
@@ -34,6 +34,7 @@ function sameDay(a: Date, b: Date): boolean {
 const SOURCE_STYLE: Record<CalendarEvent["source"], string> = {
   class: "border-accent/40 bg-accent/10 text-ink",
   meeting: "border-success/40 bg-success-soft text-ink",
+  study: "border-amber-400/50 bg-amber-100/70 text-ink",
   booking: "border-line bg-canvas text-ink",
 };
 
@@ -132,6 +133,9 @@ export function CalendarView({ events }: { events: CalendarEvent[] }) {
         </span>
         <span className="flex items-center gap-1.5">
           <span className="size-3 rounded border border-success/40 bg-success-soft" /> Meeting
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="size-3 rounded border border-amber-400/50 bg-amber-100/70" /> Study
         </span>
         <span className="flex items-center gap-1.5">
           <span className="size-3 rounded border border-line bg-canvas" /> Booking

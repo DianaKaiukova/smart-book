@@ -24,6 +24,7 @@ enum BookingKind {
   SCHEDULED // one-off future slot
   CLASS // a session of a recurring class (owned by the teacher)
   MEETING // a session of a recurring student meeting / study group
+  STUDY // a focus block auto-booked by the study planner
 }
 
 enum BookingStatus {
@@ -64,7 +65,24 @@ model User {
   series        BookingSeries[]
   taughtCourses Course[]        @relation("CourseTeacher")
   enrollments   Enrollment[]
+  deadlines     Deadline[]
   createdAt     DateTime        @default(now())
+}
+
+// A student deadline (exam / assignment). The study planner books focus blocks
+// before it, spaced across the free gaps in the student's schedule.
+model Deadline {
+  id        String    @id @default(cuid())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  title     String
+  subject   String?
+  dueDate   DateTime
+  hours     Float     @default(4) // estimated study hours needed
+  blocks    Booking[]
+  createdAt DateTime  @default(now())
+
+  @@index([userId, dueDate])
 }
 
 model Room {
@@ -144,6 +162,8 @@ model Booking {
   seriesId    String?
   course      Course?        @relation(fields: [courseId], references: [id], onDelete: Cascade)
   courseId    String?
+  deadline    Deadline?      @relation(fields: [deadlineId], references: [id], onDelete: SetNull)
+  deadlineId  String?
   start       DateTime
   end         DateTime
   kind        BookingKind
@@ -155,4 +175,5 @@ model Booking {
   @@index([userId, start])
   @@index([seriesId])
   @@index([courseId, start])
+  @@index([deadlineId])
 }

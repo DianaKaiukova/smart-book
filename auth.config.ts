@@ -1,5 +1,7 @@
 import type { NextAuthConfig } from "next-auth";
 
+import { isAppRole } from "@/lib/auth/roles";
+
 // Edge-safe config shared by proxy.ts and auth.ts (no DB / bcrypt imports here).
 
 const PUBLIC_PATHS = ["/login", "/signup", "/door"];
@@ -27,7 +29,7 @@ export const authConfig = {
     },
     session({ session, token }) {
       if (typeof token.id === "string") session.user.id = token.id;
-      session.user.role = token.role === "ADMIN" ? "ADMIN" : "MEMBER";
+      session.user.role = isAppRole(token.role) ? token.role : "STUDENT";
       return session;
     },
     // Route guards (coarse). Pages, actions and API routes re-check on the server.
@@ -37,6 +39,10 @@ export const authConfig = {
       const user = auth?.user;
       if (!user) return false;
       if (pathname.startsWith("/admin") && user.role !== "ADMIN") {
+        return Response.redirect(new URL("/", request.nextUrl));
+      }
+      // Teacher area: teachers and admins only.
+      if (pathname.startsWith("/teach") && user.role !== "TEACHER" && user.role !== "ADMIN") {
         return Response.redirect(new URL("/", request.nextUrl));
       }
       return true;

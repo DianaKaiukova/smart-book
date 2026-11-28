@@ -10,14 +10,20 @@ datasource db {
   provider = "postgresql"
 }
 
+// MEMBER is the legacy student role; new signups use STUDENT. Both are treated
+// as students in code. TEACHER can schedule classes; ADMIN is facilities.
 enum Role {
   MEMBER
+  STUDENT
+  TEACHER
   ADMIN
 }
 
 enum BookingKind {
-  NOW
-  SCHEDULED
+  NOW // immediate "book now"
+  SCHEDULED // one-off future slot
+  CLASS // a session of a recurring class (owned by the teacher)
+  MEETING // a session of a recurring student meeting / study group
 }
 
 enum BookingStatus {
@@ -28,38 +34,125 @@ enum BookingStatus {
   GHOST_RELEASED
 }
 
+// Which pool a room belongs to. Teachers may book any room; students are
+// limited to STUDY / MEETING rooms.
+enum RoomCategory {
+  LECTURE
+  SEMINAR
+  LAB
+  STUDY
+  MEETING
+}
+
+enum SeriesFrequency {
+  WEEKLY
+  BIWEEKLY
+}
+
+enum EnrollmentStatus {
+  ACTIVE // the email matched a registered student
+  PENDING // invited by email, not registered yet
+}
+
 model User {
-  id           String    @id @default(cuid())
-  email        String    @unique
-  name         String
-  passwordHash String
-  role         Role      @default(MEMBER)
-  bookings     Booking[]
-  createdAt    DateTime  @default(now())
+  id            String          @id @default(cuid())
+  email         String          @unique
+  name          String
+  passwordHash  String
+  role          Role            @default(STUDENT)
+  bookings      Booking[]
+  series        BookingSeries[]
+  taughtCourses Course[]        @relation("CourseTeacher")
+  enrollments   Enrollment[]
+  createdAt     DateTime        @default(now())
 }
 
 model Room {
-  id        String    @id // e.g. "N.1.42"
+  id        String        @id // e.g. "N.1.42"
   name      String
   floor     String // e.g. "Level 1"
   capacity  Int
   amenities String // JSON array string, e.g. '["whiteboard","monitor"]'
+  category  RoomCategory?
   bookings  Booking[]
+  series    BookingSeries[]
+}
+
+model Course {
+  id          String          @id @default(cuid())
+  code        String // e.g. "MATH-201"
+  title       String
+  teacher     User            @relation("CourseTeacher", fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId   String
+  termStart   DateTime
+  termEnd     DateTime
+  enrollments Enrollment[]
+  series      BookingSeries[]
+  bookings    Booking[]
+  createdAt   DateTime        @default(now())
+
+  @@index([teacherId])
+}
+
+model Enrollment {
+  id        String           @id @default(cuid())
+  course    Course           @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId  String
+  email     String // roster entry; matched to a student account when it exists
+  student   User?            @relation(fields: [studentId], references: [id], onDelete: SetNull)
+  studentId String?
+  status    EnrollmentStatus @default(PENDING)
+  createdAt DateTime         @default(now())
+
+  @@unique([courseId, email])
+  @@index([studentId])
+  @@index([email])
+}
+
+// A recurring booking rule. kind CLASS ties it to a Course (owner = teacher);
+// kind MEETING is a student study group. Each session is expanded into a Booking.
+model BookingSeries {
+  id        String          @id @default(cuid())
+  kind      BookingKind // CLASS or MEETING
+  title     String
+  owner     User            @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   String
+  room      Room            @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId    String
+  course    Course?         @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId  String?
+  weekday   Int // 0 = Sunday .. 6 = Saturday (campus-local)
+  startMin  Int // minutes from local midnight, e.g. 540 = 09:00
+  endMin    Int
+  frequency SeriesFrequency @default(WEEKLY)
+  startDate DateTime // first eligible date (campus-local date)
+  endDate   DateTime // last eligible date (semester end)
+  bookings  Booking[]
+  createdAt DateTime        @default(now())
+
+  @@index([ownerId])
+  @@index([roomId])
 }
 
 model Booking {
-  id          String        @id @default(cuid())
-  room        Room          @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  id          String         @id @default(cuid())
+  room        Room           @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId      String
-  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
+  series      BookingSeries? @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  seriesId    String?
+  course      Course?        @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId    String?
   start       DateTime
   end         DateTime
   kind        BookingKind
-  status      BookingStatus @default(RESERVED)
+  status      BookingStatus  @default(RESERVED)
   checkedInAt DateTime?
-  createdAt   DateTime      @default(now())
+  createdAt   DateTime       @default(now())
 
   @@index([roomId, start, end])
   @@index([userId, start])
+  @@index([seriesId])
+  @@index([courseId, start])
 }

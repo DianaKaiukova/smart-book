@@ -174,7 +174,7 @@ export type BookingView = {
   roomName: string;
   start: string;
   end: string;
-  kind: "NOW" | "SCHEDULED";
+  kind: "NOW" | "SCHEDULED" | "CLASS" | "MEETING";
   status: "RESERVED" | "CHECKED_IN" | "COMPLETED" | "CANCELLED" | "GHOST_RELEASED";
   checkedInAt: string | null;
 };

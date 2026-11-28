@@ -7,9 +7,10 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 
 import { isActiveLink, navLinksFor } from "@/components/layout/nav-links";
+import type { AppRole } from "@/lib/auth/roles";
 import { cn } from "@/lib/cn";
 
-export function MobileNav({ isAdmin, userName }: { isAdmin: boolean; userName: string }) {
+export function MobileNav({ role, userName }: { role: AppRole; userName: string }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   // Portalled to <body>: the sticky header's stacking context would otherwise keep the drawer under the assistant dock.
@@ -67,7 +68,7 @@ export function MobileNav({ isAdmin, userName }: { isAdmin: boolean; userName: s
           </button>
         </div>
         <nav className="flex flex-col gap-1 px-3 py-2">
-          {navLinksFor(isAdmin).map(({ href, label, icon: Icon }) => {
+          {navLinksFor(role).map(({ href, label, icon: Icon }) => {
             const active = isActiveLink(href, pathname);
             return (
               <Link

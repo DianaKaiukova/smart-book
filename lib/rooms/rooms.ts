@@ -3,6 +3,7 @@ import "server-only";
 import { cache } from "react";
 import { z } from "zod";
 
+import type { RoomCategory } from "@/lib/auth/roles";
 import { db } from "@/lib/db";
 import type { RoomView } from "@/lib/rooms/rooms-types";
 
@@ -19,7 +20,14 @@ export function parseAmenities(raw: string): string[] {
   }
 }
 
-type RoomRow = { id: string; name: string; floor: string; capacity: number; amenities: string };
+type RoomRow = {
+  id: string;
+  name: string;
+  floor: string;
+  capacity: number;
+  amenities: string;
+  category: RoomCategory | null;
+};
 
 function toRoomView(row: RoomRow): RoomView {
   return { ...row, amenities: parseAmenities(row.amenities) };

@@ -47,15 +47,15 @@ async function SessionNav(): Promise<ReactNode> {
   }
   return (
     <>
-      <MobileNav isAdmin={user.role === "ADMIN"} userName={user.name} />
-      <NavLinks isAdmin={user.role === "ADMIN"} />
+      <MobileNav role={user.role} userName={user.name} />
+      <NavLinks role={user.role} />
       <div className="ml-auto flex shrink-0 items-center gap-3 md:ml-0 md:justify-self-end">
         <LiveIndicator />
         <span className="hidden text-sm text-white/85 lg:inline">
           {user.name}
-          {user.role === "ADMIN" ? (
+          {user.role === "ADMIN" || user.role === "TEACHER" ? (
             <span className="ml-1.5 rounded border border-white/30 px-1.5 py-0.5 text-[10px] font-semibold uppercase">
-              admin
+              {user.role === "ADMIN" ? "admin" : "teacher"}
             </span>
           ) : null}
         </span>

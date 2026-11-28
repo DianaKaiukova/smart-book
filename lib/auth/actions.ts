@@ -61,13 +61,19 @@ export async function signupAction(_prev: AuthFormState, formData: FormData): Pr
   const existing = await db.user.findUnique({ where: { email }, select: { id: true } });
   if (existing) return { fieldErrors: { email: "An account with this email already exists." } };
 
-  await db.user.create({
+  const created = await db.user.create({
     data: {
       name: parsed.data.name,
       email,
       passwordHash: await bcrypt.hash(parsed.data.password, 10),
-      role: "MEMBER",
+      role: "STUDENT",
     },
+    select: { id: true },
+  });
+  // Link any pending course enrollments that were created for this email.
+  await db.enrollment.updateMany({
+    where: { email, studentId: null },
+    data: { studentId: created.id, status: "ACTIVE" },
   });
   return signInWithCredentials(email, parsed.data.password, "/");
 }

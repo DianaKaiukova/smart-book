@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 
 import { useToast } from "@/components/layout/toaster";
+import { DatePicker } from "@/components/ui/date-picker";
 import { createMeetingAction } from "@/lib/courses/actions";
 
 const INPUT = "w-full rounded-lg border border-line bg-white px-3 py-2 text-sm outline-none focus:border-accent";
@@ -18,7 +19,7 @@ const WEEKDAYS = [
 ];
 
 function iso(date: Date): string {
-  return date.toISOString().slice(0, 10);
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
 function toMinutes(value: string): number {
   const [h, m] = value.split(":").map(Number);
@@ -30,8 +31,9 @@ export function NewMeetingForm({ rooms }: { rooms: { id: string; name: string }[
   const [pending, startTransition] = useTransition();
   const [open, setOpen] = useState(false);
 
-  const today = new Date();
-  const until = new Date(today.getTime() + 56 * 24 * 60 * 60 * 1000); // 8 weeks
+  const today = iso(new Date());
+  const [startDate, setStartDate] = useState(today);
+  const [endDate, setEndDate] = useState(iso(new Date(Date.now() + 56 * 86400000))); // 8 weeks
 
   function submit(formData: FormData) {
     const input = {
@@ -41,8 +43,8 @@ export function NewMeetingForm({ rooms }: { rooms: { id: string; name: string }[
       startMin: toMinutes(String(formData.get("startTime") ?? "16:00")),
       endMin: toMinutes(String(formData.get("endTime") ?? "17:00")),
       frequency: String(formData.get("frequency") ?? "WEEKLY") as "WEEKLY" | "BIWEEKLY",
-      startDate: String(formData.get("startDate") ?? ""),
-      endDate: String(formData.get("endDate") ?? ""),
+      startDate,
+      endDate,
     };
     startTransition(async () => {
       const result = await createMeetingAction(input);
@@ -97,14 +99,14 @@ export function NewMeetingForm({ rooms }: { rooms: { id: string; name: string }[
           End
           <input type="time" name="endTime" defaultValue="17:00" required className={INPUT} />
         </label>
-        <label className="text-xs text-ink-muted">
+        <div className="flex flex-col gap-1 text-xs text-ink-muted">
           From
-          <input type="date" name="startDate" defaultValue={iso(today)} required className={INPUT} />
-        </label>
-        <label className="text-xs text-ink-muted">
+          <DatePicker value={startDate} min={today} onChange={setStartDate} ariaLabel="From date" />
+        </div>
+        <div className="flex flex-col gap-1 text-xs text-ink-muted">
           Until
-          <input type="date" name="endDate" defaultValue={iso(until)} required className={INPUT} />
-        </label>
+          <DatePicker value={endDate} min={startDate} onChange={setEndDate} ariaLabel="Until date" />
+        </div>
       </div>
       <label className="text-xs text-ink-muted">
         Room (study &amp; meeting rooms)

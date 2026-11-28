@@ -1,16 +1,13 @@
 "use client";
 
 import { Bot } from "lucide-react";
-import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import { ChatPanel } from "@/components/assistant/chat-panel";
 
-/** Floating assistant available on every app page (hidden on the full-page assistant). */
+/** Floating assistant available on every app page. */
 export function AssistantDock() {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  if (pathname.startsWith("/assistant")) return null;
 
   return (
     <>
@@ -22,10 +19,11 @@ export function AssistantDock() {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="fixed right-4 bottom-4 z-40 flex items-center gap-2 rounded-full bg-accent px-4 py-3 text-sm font-medium text-white shadow-(--shadow-md) hover:bg-accent-hover"
+          aria-label="Ask SmartBookBot"
+          title="Ask SmartBookBot"
+          className="fixed right-4 bottom-4 z-40 flex size-14 items-center justify-center rounded-full bg-accent text-white shadow-(--shadow-md) hover:bg-accent-hover"
         >
-          <Bot className="size-5" aria-hidden />
-          <span className="hidden sm:inline">Ask SmartBookBot</span>
+          <Bot className="size-6" aria-hidden />
         </button>
       )}
     </>

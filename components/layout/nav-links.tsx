@@ -1,34 +1,22 @@
 "use client";
 
-import {
-  Bot,
-  CalendarCheck,
-  CalendarDays,
-  GraduationCap,
-  LayoutGrid,
-  Shield,
-  Sparkles,
-  type LucideIcon,
-} from "lucide-react";
+import { CalendarCheck, CalendarDays, GraduationCap, LayoutGrid, Shield, Sparkles, type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/cn";
 import type { AppRole } from "@/lib/auth/roles";
-import { isAdmin, isTeacher } from "@/lib/auth/roles";
+import { isAdmin, isStudent, isTeacher } from "@/lib/auth/roles";
 
 type NavLink = { href: string; label: string; icon: LucideIcon };
 
-const BASE: NavLink[] = [
-  { href: "/", label: "Rooms", icon: LayoutGrid },
-  { href: "/calendar", label: "Calendar", icon: CalendarDays },
-  { href: "/planner", label: "Planner", icon: Sparkles },
-  { href: "/bookings", label: "My bookings", icon: CalendarCheck },
-  { href: "/assistant", label: "SmartBookBot", icon: Bot },
-];
-
 export function navLinksFor(role: AppRole): NavLink[] {
-  const links = [...BASE];
+  const links: NavLink[] = [
+    { href: "/", label: "Rooms", icon: LayoutGrid },
+    { href: "/calendar", label: "Calendar", icon: CalendarDays },
+  ];
+  if (isStudent(role)) links.push({ href: "/planner", label: "Planner", icon: Sparkles });
+  links.push({ href: "/bookings", label: "My bookings", icon: CalendarCheck });
   if (isTeacher(role) || isAdmin(role)) links.push({ href: "/teach", label: "Teach", icon: GraduationCap });
   if (isAdmin(role)) links.push({ href: "/admin", label: "Admin", icon: Shield });
   return links;
